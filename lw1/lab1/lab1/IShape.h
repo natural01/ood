@@ -1,5 +1,6 @@
 #pragma once
 #include "Point.h"
+#include "ICanvas.h"
 #include <string>
 
 class IShape
@@ -7,6 +8,7 @@ class IShape
 public:
 	virtual ~IShape() = default;
 
+	virtual void Draw(ICanvas& canvas) const = 0;
 	virtual double GetArea() const = 0;
 	virtual double GetPerimeter() const = 0;
 	virtual std::string ToString() const = 0;

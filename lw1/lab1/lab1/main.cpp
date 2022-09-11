@@ -13,5 +13,7 @@ int main()
 	consoleCommand.DoCommand(cin);
 	consoleCommand.GetShapeInfo(consoleCommand);
 
+	consoleCommand.DrawShapes();
+
 	return 0;
 }

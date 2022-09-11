@@ -12,6 +12,7 @@
 #include "Shape.h"
 #include "SolidShape.h"
 #include "Triangle.h"
+#include "Canvas.h"
 
 using namespace std;
 
@@ -221,4 +222,31 @@ void CConsoleCommand::GetShapeInfo(CConsoleCommand& consoleCommand) const
 	cout << consoleCommand.SetShapeInfo(shapeWithMaxArea);
 	cout << Info_Min_Perimeter;
 	cout << consoleCommand.SetShapeInfo(shapeWithMinPerimeter);
+}
+
+void CConsoleCommand::DrawShapes() const
+{
+	if (!m_shapes.empty())
+	{
+		sf::RenderWindow window(sf::VideoMode(600, 600), "Draw Shapes!");
+		CCanvas canvas(window);
+		while (window.isOpen())
+		{
+			sf::Event event;
+			while (window.pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+				{
+					window.close();
+				}
+			}
+			window.clear(sf::Color(255, 255, 255));
+
+			for (const auto& shape : m_shapes)
+			{
+				shape->Draw(canvas);
+			}
+			window.display();
+		}
+	}
 }

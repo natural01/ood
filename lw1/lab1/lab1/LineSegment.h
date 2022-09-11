@@ -13,6 +13,7 @@ public:
 	double GetArea() const override;
 	double GetPerimeter() const override;
 	std::string ToString() const override;
+	void Draw(ICanvas& canvas) const override;
 
 	CPoint GetStartPoint() const;
 	CPoint GetEndPoint() const;

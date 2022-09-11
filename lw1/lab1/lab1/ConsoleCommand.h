@@ -13,6 +13,7 @@ public:
 	std::vector<std::unique_ptr<IShape>>::const_iterator GetShapeWithMinPerimeter() const;
 	std::string SetShapeInfo(std::vector<std::unique_ptr<IShape>>::const_iterator shape) const;
 	void GetShapeInfo(CConsoleCommand& consoleCommand) const;
+	void DrawShapes() const;
 
 private:
 	std::vector<std::unique_ptr<IShape>> m_shapes;
