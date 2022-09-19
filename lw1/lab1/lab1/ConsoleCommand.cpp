@@ -13,6 +13,7 @@
 #include "SolidShape.h"
 #include "Triangle.h"
 #include "Canvas.h"
+#include <fstream> 
 
 using namespace std;
 
@@ -30,13 +31,14 @@ string const Circle = "Circle";
 string const Info_Max_Area = "Shape with max area:\n";
 string const Info_Min_Perimeter = "Shape with min perimeter:\n";
 
-
-unique_ptr<CShape> CreateLineSegment(vector<string> command)
+unique_ptr<CShape> CreateLineSegment(vector<string> command, ofstream& outputFile)
 {
 	if (command.size() == The_Number_Of_Elements_In_Line)
 	{
 		try
 		{
+			CLineSegment newLine = CLineSegment(CPoint(stod(command[1]), stod(command[2])), CPoint(stod(command[3]), stod(command[4])), command[5]);
+			outputFile << Line << ": P=" << newLine.GetPerimeter() << "; S=" << newLine.GetArea() << endl;
 			return make_unique<CLineSegment>(CPoint(stod(command[1]), stod(command[2])), CPoint(stod(command[3]), stod(command[4])), command[5]);
 		}
 		catch (const std::logic_error&)
@@ -50,12 +52,14 @@ unique_ptr<CShape> CreateLineSegment(vector<string> command)
 	}
 }
 
-unique_ptr<CShape> CreateTriangle(vector<string> command)
+unique_ptr<CShape> CreateTriangle(vector<string> command, ofstream& outputFile)
 {
 	if (command.size() == The_Number_Of_Elements_In_Triangle)
 	{
 		try
 		{
+			CTriangle newLine = CTriangle(CPoint(stod(command[1]), stod(command[2])), CPoint(stod(command[3]), stod(command[4])), CPoint(stod(command[5]), stod(command[6])), command[7], command[8]);
+			outputFile << Triangle << ": P=" << newLine.GetPerimeter() << "; S=" << newLine.GetArea() << endl;
 			return make_unique<CTriangle>(CPoint(stod(command[1]), stod(command[2])), CPoint(stod(command[3]), stod(command[4])), CPoint(stod(command[5]), stod(command[6])), command[7], command[8]);
 		}
 		catch (const std::logic_error&)
@@ -69,12 +73,14 @@ unique_ptr<CShape> CreateTriangle(vector<string> command)
 	}
 }
 
-unique_ptr<CShape> CreateRectangle(vector<string> command)
+unique_ptr<CShape> CreateRectangle(vector<string> command, ofstream& outputFile)
 {
 	if (command.size() == The_Number_Of_Elements_In_Rectangle)
 	{
 		try
 		{
+			CRectangle newLine = CRectangle(CPoint(stod(command[1]), stod(command[2])), stod(command[3]), stod(command[4]), command[5], command[6]);
+			outputFile << Rectangle << ": P=" << newLine.GetPerimeter() << "; S=" << newLine.GetArea() << endl;
 			return make_unique<CRectangle>(CPoint(stod(command[1]), stod(command[2])), stod(command[3]), stod(command[4]), command[5], command[6]);
 		}
 		catch (const std::logic_error&)
@@ -88,12 +94,14 @@ unique_ptr<CShape> CreateRectangle(vector<string> command)
 	}
 }
 
-unique_ptr<CShape> CreateCircle(vector<string> command)
+unique_ptr<CShape> CreateCircle(vector<string> command, ofstream& outputFile)
 {
 	if (command.size() == The_Number_Of_Elements_In_Circle)
 	{
 		try
 		{
+			CCircle newLine = CCircle(CPoint(stod(command[1]), stod(command[2])), stod(command[3]), command[4], command[5]);
+			outputFile << Circle << ": P=" << newLine.GetPerimeter() << "; S=" << newLine.GetArea() << endl;
 			return make_unique<CCircle>(CPoint(stod(command[1]), stod(command[2])), stod(command[3]), command[4], command[5]);
 		}
 		catch (const std::logic_error&)
@@ -131,22 +139,18 @@ vector<string> parsing(string commandLine)
 	size_t delta = delimiter.length();
 
 	while ((next = commandLine.find(delimiter, prev)) != string::npos) {
-		string tmp = commandLine.substr(prev, next - prev);
-		cout << tmp << endl;
 		arr.push_back(commandLine.substr(prev, next - prev));
 		prev = next + delta;
 	}
-	string tmp = commandLine.substr(prev);
-	cout << tmp << endl;
 	arr.push_back(commandLine.substr(prev));
 	return arr;
 }
 
-void CConsoleCommand::DoCommand(istream& commands)
+void CConsoleCommand::DoCommand(ifstream& inputfile, ofstream& outputFile)
 {
 	string commandLine;
 	vector<string> command;
-	while (getline(commands, commandLine))
+	while (getline(inputfile, commandLine))
 	{
 		try
 		{
@@ -159,19 +163,19 @@ void CConsoleCommand::DoCommand(istream& commands)
 
 			if (command[0] == Line)
 			{
-				m_shapes.push_back(CreateLineSegment(command));
+				m_shapes.push_back(CreateLineSegment(command, outputFile));
 			}
 			else if (command[0] == Triangle)
 			{
-				m_shapes.push_back(CreateTriangle(command));
+				m_shapes.push_back(CreateTriangle(command, outputFile));
 			}
 			else if (command[0] == Rectangle)
 			{
-				m_shapes.push_back(CreateRectangle(command));
+				m_shapes.push_back(CreateRectangle(command, outputFile));
 			}
 			else if (command[0] == Circle)
 			{
-				m_shapes.push_back(CreateCircle(command));
+				m_shapes.push_back(CreateCircle(command, outputFile));
 			}
 			else
 			{

@@ -1,0 +1,11 @@
+Triangle: P=485.41; S=11250
+Circle: P=314.159; S=7853.98
+LineSegment: P=167.705; S=0
+Circle: P=314.159; S=7853.98
+Triangle: P=161.803; S=1250
+Triangle: P=161.803; S=1250
+Circle: P=12.5664; S=12.5664
+Circle: P=12.5664; S=12.5664
+LineSegment: P=5; S=0
+LineSegment: P=22.3607; S=0
+LineSegment: P=22.3607; S=0
