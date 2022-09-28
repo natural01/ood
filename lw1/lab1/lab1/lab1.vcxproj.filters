@@ -42,7 +42,7 @@
     <ClCompile Include="Triangle.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Canvas.cpp">
+    <ClCompile Include="CanvasDecorator.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,11 +77,8 @@
     <ClInclude Include="Triangle.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="Canvas.h">
+    <ClInclude Include="CanvasDecorator.h">
       <Filter>Исходные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="ICanvas.h">
-      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

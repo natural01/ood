@@ -17,7 +17,6 @@ int main()
 	ofstream outputFile(Output_File);
 	CConsoleCommand consoleCommand;
 	consoleCommand.DoCommand(inputFile, outputFile);
-	consoleCommand.GetShapeInfo(consoleCommand);
 
 	consoleCommand.DrawShapes();
 

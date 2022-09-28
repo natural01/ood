@@ -2,9 +2,10 @@
 
 using namespace std;
 
-CLineSegment::CLineSegment(CPoint const& startPoint, CPoint const& endPoint, std::string const& color)
+CLineSegment::CLineSegment(CPoint const& startPoint, CPoint const& endPoint, std::string const& color, sf::RenderWindow& window)
 	: m_startPoint(startPoint)
 	, m_endPoint(endPoint)
+	, m_window(window)
 {
 	SetOutlineColor(stoul(color, 0, 16));
 }
@@ -41,7 +42,22 @@ CPoint CLineSegment::GetEndPoint() const
 	return m_endPoint;
 }
 
-void CLineSegment::Draw(ICanvas& canvas) const
+static sf::Color GetValidateColor(uint32_t color)
 {
-	canvas.DrawLine(m_startPoint, m_endPoint, GetOutlineColor());
+	uint32_t red = ((color / 256) / 256) % 256;
+	uint32_t green = (color / 256) % 256;
+	uint32_t blue = color % 256;
+	return sf::Color(red, green, blue);
+}
+
+void CLineSegment::Draw(sf::RenderWindow& window) const
+{
+	sf::Vertex line[] =
+	{
+		sf::Vertex(sf::Vector2f((float)m_startPoint.x(), (float)m_startPoint.y())),
+		sf::Vertex(sf::Vector2f((float)m_endPoint.x(), (float)m_endPoint.y()))
+	};
+	line[0].color = GetValidateColor(GetFillColor());
+	line[1].color = GetValidateColor(GetOutlineColor());
+	window.draw(line, 2, sf::Lines);
 }

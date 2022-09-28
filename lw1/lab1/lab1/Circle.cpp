@@ -6,9 +6,10 @@
 
 using namespace std;
 
-CCircle::CCircle(CPoint const& centerPoint, double const& radius, std::string const& outlineColor, std::string const& fillColor)
+CCircle::CCircle(CPoint const& centerPoint, double const& radius, std::string const& outlineColor, std::string const& fillColor, sf::RenderWindow& window)
 	: m_center(centerPoint)
 	, m_radius(radius)
+	, m_window(window)
 {
 	SetOutlineColor(stoul(outlineColor, 0, 16));
 	SetFillColor(stoul(fillColor, 0, 16));
@@ -47,7 +48,20 @@ double CCircle::GetRadius() const
 	return m_radius;
 }
 
-void CCircle::Draw(ICanvas& canvas) const
+static sf::Color GetValidateColor(uint32_t color)
 {
-	canvas.DrawCircle(m_center, m_radius, GetOutlineColor(), GetFillColor());
+	uint32_t red = ((color / 256) / 256) % 256;
+	uint32_t green = (color / 256) % 256;
+	uint32_t blue = color % 256;
+	return sf::Color(red, green, blue);
+}
+
+void CCircle::Draw(sf::RenderWindow& window) const
+{
+	sf::CircleShape circle((float)m_radius);
+	circle.setFillColor(GetValidateColor(GetFillColor()));
+	circle.setOutlineThickness(1);
+	circle.setOutlineColor(GetValidateColor(GetOutlineColor()));
+	circle.move((float)(m_center.x() - m_radius), (float)(m_center.y() - m_radius));
+	window.draw(circle);
 }
