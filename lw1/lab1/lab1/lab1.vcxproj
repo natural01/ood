@@ -134,6 +134,7 @@
     <ClCompile Include="LineSegment.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Circle.cpp" />
+    <ClCompile Include="Ownership.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="SolidShape.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="ConsoleCommand.h" />
     <ClInclude Include="CanvasDecorator.h" />
     <ClInclude Include="LineSegment.h" />
+    <ClInclude Include="Ownership.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Shape.h" />

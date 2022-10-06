@@ -80,7 +80,112 @@ void CTriangle::Draw(sf::RenderWindow& window) const
 		shape.setPoint(i, sf::Vector2f((float)points[i].x(), (float)points[i].y()));
 	}
 	shape.setFillColor(GetValidateColor(GetFillColor()));
-	shape.setOutlineThickness(1);
 	shape.setOutlineColor(GetValidateColor(GetOutlineColor()));
 	window.draw(shape);
+}
+
+int CTriangle::GetOwnershipWidth()
+{
+	int max = m_vertex1.x();
+	int min = m_vertex1.x();
+
+	if (m_vertex2.x() > max)
+	{
+		max = m_vertex2.x();
+	}
+	if (m_vertex3.x() > max)
+	{
+		max = m_vertex3.x();
+	}
+	if (m_vertex2.x() < min)
+	{
+		min = m_vertex2.x();
+	}
+	if (m_vertex3.x() < min)
+	{
+		min = m_vertex3.x();
+	}
+	return max - min;
+}
+int CTriangle::GetOwnershipHeight()
+{
+	int max = m_vertex1.y();
+	int min = m_vertex1.y();
+
+	if (m_vertex2.y() > max)
+	{
+		max = m_vertex2.y();
+	}
+	if (m_vertex3.y() > max)
+	{
+		max = m_vertex3.y();
+	}
+	if (m_vertex2.y() < min)
+	{
+		min = m_vertex2.y();
+	}
+	if (m_vertex3.y() < min)
+	{
+		min = m_vertex3.y();
+	}
+	return max-min;
+}
+CPoint CTriangle::GetOwnershipLeftTopPoint()
+{
+	int minX = m_vertex1.x();
+	int minY = m_vertex1.y();
+	if (m_vertex2.x() < minX)
+	{
+		minX = m_vertex2.x();
+	}
+	if (m_vertex3.x() < minX)
+	{
+		minX = m_vertex3.x();
+	}
+	if (m_vertex2.y() < minY)
+	{
+		minY = m_vertex2.y();
+	}
+	if (m_vertex3.y() < minY)
+	{
+		minY = m_vertex3.y();
+	}
+	return CPoint(minX, minY);
+}
+
+double Perimeter(CPoint vertex1, CPoint vertex2, CPoint vertex3)
+{
+	return hypot(vertex2.x() - vertex1.x(), vertex2.y() - vertex1.y())
+		+ hypot(vertex3.x() - vertex2.x(), vertex3.y() - vertex2.y())
+		+ hypot(vertex3.x() - vertex1.x(), vertex3.y() - vertex1.y());
+}
+double Square(CPoint vertex1, CPoint vertex2, CPoint vertex3)
+{
+	double halfPerimeter = Perimeter(vertex1, vertex2, vertex3) / 2;
+
+	return sqrt(halfPerimeter * (halfPerimeter - hypot(vertex2.x() - vertex1.x(), vertex2.y() - vertex1.y()))
+		* (halfPerimeter - hypot(vertex3.x() - vertex2.x(), vertex3.y() - vertex2.y()))
+		* (halfPerimeter - hypot(vertex3.x() - vertex1.x(), vertex3.y() - vertex1.y())));
+}
+
+void CTriangle::SetOwnership(sf::Vector2i point)
+{
+	CPoint newVertex = CPoint(point.x, point.y);
+	int getSquare = Square(m_vertex1, m_vertex2, m_vertex3);
+	int setSquare1 = Square(newVertex, m_vertex2, m_vertex3);
+	int setSquare2 = Square(m_vertex1, newVertex, m_vertex3);
+	int setSquare3 = Square(m_vertex1, m_vertex2, newVertex);
+	if (getSquare >= setSquare1 + setSquare2 + setSquare3)
+	{
+		m_ownership = true;
+	}
+	else
+	{
+		m_ownership = false;
+	}
+}
+
+bool CTriangle::GetOwnership(sf::Vector2i point)
+{
+	return m_ownership;
 }

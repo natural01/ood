@@ -115,6 +115,11 @@ unique_ptr<CanvasDecorator> CreateCircle(vector<string> command, ofstream& outpu
 	}
 }
 
+unique_ptr<COwnership> CreateOwnership(CPoint const& leftTopPoint, double const& width, double const& height, sf::RenderWindow& window)
+{
+	return make_unique<COwnership>(leftTopPoint, width, height, window);
+}
+
 bool AreaCompare(unique_ptr<IShape> const& firstShape, unique_ptr<IShape> const& secondShape)
 {
 	return firstShape->GetArea() < secondShape->GetArea();
@@ -190,7 +195,7 @@ void CConsoleCommand::DoCommand(ifstream& inputfile, ofstream& outputFile)
 	}
 }
 
-void CConsoleCommand::DrawShapes() const
+void CConsoleCommand::DrawShapes() 
 {
 	if (!m_shapes.empty())
 	{
@@ -211,7 +216,28 @@ void CConsoleCommand::DrawShapes() const
 			{
 				shape->Draw(window);
 			}
+			for (const auto& ownership : m_ownerships)
+			{
+				ownership->Draw(window);
+			}
+			if (event.type == sf::Event::MouseButtonPressed)
+			{
+				for (const auto& shape : m_shapes)
+				{
+					shape->SetOwnership(sf::Mouse::getPosition(window));
+					bool ownership = shape->GetOwnership(sf::Mouse::getPosition(window));
+					if (ownership)
+					{
+						m_ownerships.clear();
+						int width = shape->GetOwnershipWidth();
+						int height = shape->GetOwnershipHeight();
+						CPoint leftTopPoint = shape->GetOwnershipLeftTopPoint();
+						m_ownerships.push_back(CreateOwnership(leftTopPoint, width, height, window));
+					}
+				}
+			}
 			window.display();
+
 		}
 	}
 }

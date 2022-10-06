@@ -65,3 +65,34 @@ void CCircle::Draw(sf::RenderWindow& window) const
 	circle.move((float)(m_center.x() - m_radius), (float)(m_center.y() - m_radius));
 	window.draw(circle);
 }
+
+int CCircle::GetOwnershipWidth()
+{
+	return m_radius * 2;
+}
+int CCircle::GetOwnershipHeight()
+{
+	return m_radius * 2;
+}
+CPoint CCircle::GetOwnershipLeftTopPoint()
+{
+	return CPoint(m_center.x() - m_radius, m_center.y() -  m_radius);
+}
+
+void CCircle::SetOwnership(sf::Vector2i point)
+{
+	int setRadius = sqrt(pow(abs(point.x - m_center.x()), 2) + pow(abs(point.y - m_center.y()), 2));
+	if (setRadius <= m_radius)
+	{
+		m_ownership = true;
+	}
+	else
+	{
+		m_ownership = false;
+	}
+}
+
+bool CCircle::GetOwnership(sf::Vector2i point)
+{
+	return m_ownership;
+}

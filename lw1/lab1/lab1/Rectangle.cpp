@@ -58,6 +58,21 @@ double CRectangle::GetHeight() const
 	return m_height;
 }
 
+int CRectangle::GetOwnershipWidth()
+{
+	return m_width;
+}
+
+int CRectangle::GetOwnershipHeight()
+{
+	return m_height;
+}
+
+CPoint CRectangle::GetOwnershipLeftTopPoint()
+{
+	return m_leftTopPoint;
+}
+
 static sf::Color GetValidateColor(uint32_t color)
 {
 	uint32_t red = ((color / 256) / 256) % 256;
@@ -81,8 +96,24 @@ void CRectangle::Draw(sf::RenderWindow& window) const
 	{
 		shape.setPoint(i, sf::Vector2f((float)points[i].x(), (float)points[i].y()));
 	}
-	shape.setFillColor(GetValidateColor(GetFillColor()));
 	shape.setOutlineThickness(1);
 	shape.setOutlineColor(GetValidateColor(GetOutlineColor()));
 	window.draw(shape);
+}
+
+void CRectangle::SetOwnership(sf::Vector2i point)
+{
+	if ((point.x < m_leftTopPoint.x() + m_width && point.x > m_leftTopPoint.x()) && (point.y < m_leftTopPoint.y() + m_height && point.y > m_leftTopPoint.y()))
+	{
+		m_ownership = true;
+	}
+	else
+	{
+		m_ownership = false;
+	}
+}
+
+bool CRectangle::GetOwnership(sf::Vector2i point)
+{
+	return m_ownership;
 }

@@ -61,3 +61,44 @@ void CLineSegment::Draw(sf::RenderWindow& window) const
 	line[1].color = GetValidateColor(GetOutlineColor());
 	window.draw(line, 2, sf::Lines);
 }
+
+int CLineSegment::GetOwnershipWidth()
+{
+	return abs(m_startPoint.x() - m_endPoint.x());
+}
+int CLineSegment::GetOwnershipHeight()
+{
+	return abs(m_startPoint.y() - m_endPoint.y());
+}
+CPoint CLineSegment::GetOwnershipLeftTopPoint()
+{
+	int minX = m_startPoint.x();
+	int minY = m_startPoint.y();
+	if (m_endPoint.x() < minX)
+	{
+		minX = m_endPoint.x();
+	}
+	if (m_endPoint.y() < minY)
+	{
+		minY = m_endPoint.y();
+	}
+	return CPoint(minX, minY);
+	return CPoint(minX, minY);
+}
+
+void CLineSegment::SetOwnership(sf::Vector2i point)
+{
+	if (((point.x - m_startPoint.x()) * (m_endPoint.y() - m_startPoint.y())) - ((point.y - m_startPoint.y()) * (m_endPoint.x() - m_startPoint.x())) == 0)
+	{
+		m_ownership = true;
+	}
+	else
+	{
+		m_ownership = false;
+	}
+}
+
+bool CLineSegment::GetOwnership(sf::Vector2i point)
+{
+	return m_ownership;
+}

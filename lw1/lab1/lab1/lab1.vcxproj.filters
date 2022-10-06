@@ -45,6 +45,9 @@
     <ClCompile Include="CanvasDecorator.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Ownership.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Circle.h">
@@ -78,6 +81,9 @@
       <Filter>Исходные файлы</Filter>
     </ClInclude>
     <ClInclude Include="CanvasDecorator.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Ownership.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
   </ItemGroup>
