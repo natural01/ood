@@ -12,6 +12,8 @@ public:
 
 	double x() const;
 	double y() const;
+	void setX(double x);
+	void setY(double y);
 
 private:
 	double m_x = 0;

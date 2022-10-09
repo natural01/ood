@@ -96,3 +96,9 @@ bool CCircle::GetOwnership(sf::Vector2i point)
 {
 	return m_ownership;
 }
+
+void CCircle::SetPosition(CPoint newPosition)
+{
+	m_center.setX(m_center.x() - newPosition.x());
+	m_center.setY(m_center.y() - newPosition.y());
+}

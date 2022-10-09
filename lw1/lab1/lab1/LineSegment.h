@@ -24,6 +24,7 @@ public:
 	int GetOwnershipWidth();
 	int GetOwnershipHeight();
 	CPoint GetOwnershipLeftTopPoint();
+	void SetPosition(CPoint newPosition);
 
 private:
 	sf::RenderWindow& m_window;

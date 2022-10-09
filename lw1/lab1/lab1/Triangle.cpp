@@ -189,3 +189,13 @@ bool CTriangle::GetOwnership(sf::Vector2i point)
 {
 	return m_ownership;
 }
+
+void CTriangle::SetPosition(CPoint newPosition)
+{
+	m_vertex1.setX(m_vertex1.x() - newPosition.x());
+	m_vertex1.setY(m_vertex1.y() - newPosition.y());
+	m_vertex2.setX(m_vertex2.x() - newPosition.x());
+	m_vertex2.setY(m_vertex2.y() - newPosition.y());
+	m_vertex3.setX(m_vertex3.x() - newPosition.x());
+	m_vertex3.setY(m_vertex3.y() - newPosition.y());
+}

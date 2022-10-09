@@ -28,6 +28,8 @@ public:
 	void EetOwnershipHeight(double height);
 	void SetOwnershipLeftTopPoint(CPoint leftTopPoint);
 
+	virtual void SetPosition(CPoint newPosition) = 0;
+
 private:
 	uint32_t m_fillColor = 000000;
 	CPoint m_ownershipLeftTopPoint = CPoint(0, 0);

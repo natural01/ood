@@ -117,3 +117,9 @@ bool CRectangle::GetOwnership(sf::Vector2i point)
 {
 	return m_ownership;
 }
+
+void CRectangle::SetPosition(CPoint newPosition)
+{
+	m_leftTopPoint.setX(m_leftTopPoint.x() - newPosition.x());
+	m_leftTopPoint.setY(m_leftTopPoint.y() - newPosition.y());
+}

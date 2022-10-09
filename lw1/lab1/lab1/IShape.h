@@ -13,6 +13,4 @@ public:
 	virtual std::string ToString() const = 0;
 	virtual void SetOutlineColor(uint32_t const& color) = 0;
 	virtual uint32_t GetOutlineColor() const = 0;
-
-	virtual void Draw(sf::RenderWindow& window) const = 0;
 };

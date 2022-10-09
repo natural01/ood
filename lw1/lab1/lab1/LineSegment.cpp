@@ -102,3 +102,11 @@ bool CLineSegment::GetOwnership(sf::Vector2i point)
 {
 	return m_ownership;
 }
+
+void CLineSegment::SetPosition(CPoint newPosition)
+{
+	m_startPoint.setX(m_startPoint.x() - newPosition.x());
+	m_startPoint.setY(m_startPoint.y() - newPosition.y());
+	m_endPoint.setX(m_endPoint.x() - newPosition.x());
+	m_endPoint.setY(m_endPoint.y() - newPosition.y());
+}

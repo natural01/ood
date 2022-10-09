@@ -199,7 +199,10 @@ void CConsoleCommand::DrawShapes()
 {
 	if (!m_shapes.empty())
 	{
+		bool oneClick = true;
+		bool oneReleas = false;
 		sf::RenderWindow window(sf::VideoMode(600, 600), "Draw Shapes!");
+		sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
 		while (window.isOpen())
 		{
 			sf::Event event;
@@ -222,13 +225,44 @@ void CConsoleCommand::DrawShapes()
 			}
 			if (event.type == sf::Event::MouseButtonPressed)
 			{
+				oneReleas = true;
+				m_ownerships.clear();
+				if (oneClick)
+				{
+					mousePosition = sf::Mouse::getPosition(window);
+					oneClick = false;
+				}
 				for (const auto& shape : m_shapes)
 				{
-					shape->SetOwnership(sf::Mouse::getPosition(window));
-					bool ownership = shape->GetOwnership(sf::Mouse::getPosition(window));
+					shape->SetOwnership(mousePosition);
+					bool ownership = shape->GetOwnership(mousePosition);
+					if (ownership)
+					{
+						int width = shape->GetOwnershipWidth();
+						int height = shape->GetOwnershipHeight();
+						CPoint leftTopPoint = shape->GetOwnershipLeftTopPoint();
+						m_ownerships.push_back(CreateOwnership(leftTopPoint, width, height, window));
+					}
+				}
+			}
+			if (event.type == sf::Event::MouseButtonReleased)
+			{
+				oneClick = true;
+				sf::Vector2i newMousePosition = sf::Mouse::getPosition(window);
+				CPoint newPosition = CPoint(0, 0);
+				if (oneReleas)
+				{
+					newPosition = CPoint(mousePosition.x - newMousePosition.x, mousePosition.y - newMousePosition.y);
+					oneReleas = false;
+				}
+				cout << endl;
+				for (const auto& shape : m_shapes)
+				{
+					bool ownership = shape->GetOwnership(mousePosition);
 					if (ownership)
 					{
 						m_ownerships.clear();
+						shape->SetPosition(newPosition);
 						int width = shape->GetOwnershipWidth();
 						int height = shape->GetOwnershipHeight();
 						CPoint leftTopPoint = shape->GetOwnershipLeftTopPoint();
