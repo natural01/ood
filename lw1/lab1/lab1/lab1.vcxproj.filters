@@ -86,6 +86,12 @@
     <ClInclude Include="Ownership.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="IGroup.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="CGroup.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="test.txt" />

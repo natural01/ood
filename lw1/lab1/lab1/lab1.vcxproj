@@ -143,9 +143,11 @@
     <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CGroup.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="ConsoleCommand.h" />
     <ClInclude Include="CanvasDecorator.h" />
+    <ClInclude Include="IGroup.h" />
     <ClInclude Include="LineSegment.h" />
     <ClInclude Include="Ownership.h" />
     <ClInclude Include="Point.h" />

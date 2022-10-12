@@ -26,7 +26,7 @@ void CanvasDecorator::SetOwnershipWidth(double width)
 {
 	m_ownershipWidth = width;
 }
-void CanvasDecorator::EetOwnershipHeight(double height)
+void CanvasDecorator::SetOwnershipHeight(double height)
 {
 	m_ownershipHeight = height;
 }

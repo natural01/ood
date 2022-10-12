@@ -25,7 +25,7 @@ public:
 	virtual int GetOwnershipHeight() = 0;
 	virtual CPoint GetOwnershipLeftTopPoint() = 0;
 	void SetOwnershipWidth(double width);
-	void EetOwnershipHeight(double height);
+	void SetOwnershipHeight(double height);
 	void SetOwnershipLeftTopPoint(CPoint leftTopPoint);
 
 	virtual void SetPosition(CPoint newPosition) = 0;
