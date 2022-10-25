@@ -3,9 +3,9 @@
 
 #include "Point.h"
 #include "SolidShape.h"
-#include "CanvasDecorator.h"
+#include "ShapeDecorator.h"
 
-class CCircle final : public CanvasDecorator
+class CCircle final : public ShapeDecorator
 {
 public:
 	CCircle(CPoint const& centerPoint, double const& radius, std::string const& outlineColor, std::string const& fillColor, sf::RenderWindow& window);
@@ -17,8 +17,8 @@ public:
 	void Draw(sf::RenderWindow& window) const override;
 	CPoint GetCenter() const;
 	double GetRadius() const;
-	void SetOwnership(sf::Vector2i point);
-	bool GetOwnership(sf::Vector2i point);
+	void SetOwnership(sf::Vector2i point, bool select);
+	bool GetOwnership();
 
 	int GetOwnershipWidth();
 	int GetOwnershipHeight();

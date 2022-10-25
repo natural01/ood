@@ -42,10 +42,13 @@
     <ClCompile Include="Triangle.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CanvasDecorator.cpp">
+    <ClCompile Include="ShapeDecorator.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Ownership.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="CShapeComposite.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -80,16 +83,16 @@
     <ClInclude Include="Triangle.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="CanvasDecorator.h">
+    <ClInclude Include="ShapeDecorator.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
     <ClInclude Include="Ownership.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="IGroup.h">
+    <ClInclude Include="IShapeComposite.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="CGroup.h">
+    <ClInclude Include="CShapeComposite.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
   </ItemGroup>

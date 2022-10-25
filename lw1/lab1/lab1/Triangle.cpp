@@ -168,7 +168,7 @@ double Square(CPoint vertex1, CPoint vertex2, CPoint vertex3)
 		* (halfPerimeter - hypot(vertex3.x() - vertex1.x(), vertex3.y() - vertex1.y())));
 }
 
-void CTriangle::SetOwnership(sf::Vector2i point)
+void CTriangle::SetOwnership(sf::Vector2i point, bool select)
 {
 	CPoint newVertex = CPoint(point.x, point.y);
 	int getSquare = Square(m_vertex1, m_vertex2, m_vertex3);
@@ -179,13 +179,13 @@ void CTriangle::SetOwnership(sf::Vector2i point)
 	{
 		m_ownership = true;
 	}
-	else
+	else if (!select)
 	{
 		m_ownership = false;
 	}
 }
 
-bool CTriangle::GetOwnership(sf::Vector2i point)
+bool CTriangle::GetOwnership()
 {
 	return m_ownership;
 }

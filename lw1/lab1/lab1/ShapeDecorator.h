@@ -5,15 +5,15 @@
 #include "Point.h"
 #include <SFML/Graphics.hpp>
 
-class CanvasDecorator : public CSolidShape
+class ShapeDecorator : public CSolidShape
 {
 public:
-	virtual ~CanvasDecorator() = default;
+	virtual ~ShapeDecorator() = default;
 
 	virtual void Draw(sf::RenderWindow& windiw) const = 0;
 
-	virtual void SetOwnership(sf::Vector2i point) = 0;
-	virtual bool GetOwnership(sf::Vector2i point) = 0;
+	virtual void SetOwnership(sf::Vector2i point, bool select) = 0;
+	virtual bool GetOwnership() = 0;
 
 	void SetFillColor(uint32_t const& color) override;
 	uint32_t GetFillColor() const;

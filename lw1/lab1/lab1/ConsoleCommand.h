@@ -1,8 +1,9 @@
 #pragma once
 #include "Shape.h"
 #include <string>
-#include "CanvasDecorator.h"
+#include "ShapeDecorator.h"
 #include "Ownership.h"
+#include "CShapeComposite.h"
 
 class CConsoleCommand
 {
@@ -14,6 +15,7 @@ public:
 	void DrawShapes();
 
 private:
-	std::vector<std::unique_ptr<CanvasDecorator>> m_shapes;
+	std::vector<std::shared_ptr<ShapeDecorator>> m_shapes;
 	std::vector<std::unique_ptr<COwnership>> m_ownerships;
+	std::vector<std::shared_ptr<CShapeComposite>> m_groups;
 };

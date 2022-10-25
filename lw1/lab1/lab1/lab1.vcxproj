@@ -130,7 +130,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CanvasDecorator.cpp" />
+    <ClCompile Include="ShapeDecorator.cpp" />
+    <ClCompile Include="CShapeComposite.cpp" />
     <ClCompile Include="LineSegment.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Circle.cpp" />
@@ -143,11 +144,11 @@
     <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CGroup.h" />
+    <ClInclude Include="CShapeComposite.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="ConsoleCommand.h" />
-    <ClInclude Include="CanvasDecorator.h" />
-    <ClInclude Include="IGroup.h" />
+    <ClInclude Include="ShapeDecorator.h" />
+    <ClInclude Include="IShapeComposite.h" />
     <ClInclude Include="LineSegment.h" />
     <ClInclude Include="Ownership.h" />
     <ClInclude Include="Point.h" />

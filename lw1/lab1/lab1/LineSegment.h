@@ -3,9 +3,9 @@
 #include <sstream>
 #include "Shape.h"
 #include "Point.h"
-#include "CanvasDecorator.h"
+#include "ShapeDecorator.h"
 
-class CLineSegment final : public CanvasDecorator
+class CLineSegment final : public ShapeDecorator
 {
 public:
 	CLineSegment(CPoint const& startPoint, CPoint const& endPoint, std::string const& color, sf::RenderWindow& window);
@@ -15,8 +15,8 @@ public:
 	double GetPerimeter() const override;
 	std::string ToString() const override;
 	void Draw(sf::RenderWindow& window) const override;
-	void SetOwnership(sf::Vector2i point);
-	bool GetOwnership(sf::Vector2i point);
+	void SetOwnership(sf::Vector2i point, bool select);
+	bool GetOwnership();
 
 	CPoint GetStartPoint() const;
 	CPoint GetEndPoint() const;

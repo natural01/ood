@@ -12,7 +12,7 @@
 #include "Shape.h"
 #include "SolidShape.h"
 #include "Triangle.h"
-#include "CanvasDecorator.h"
+#include "ShapeDecorator.h"
 #include <fstream>
 
 using namespace std;
@@ -31,7 +31,7 @@ string const Circle = "Circle";
 string const Info_Max_Area = "Shape with max area:\n";
 string const Info_Min_Perimeter = "Shape with min perimeter:\n";
 
-unique_ptr<CanvasDecorator> CreateLineSegment(vector<string> command, ofstream& outputFile, sf::RenderWindow& newWindow)
+shared_ptr<ShapeDecorator> CreateLineSegment(vector<string> command, ofstream& outputFile, sf::RenderWindow& newWindow)
 {
 	if (command.size() == The_Number_Of_Elements_In_Line)
 	{
@@ -39,7 +39,7 @@ unique_ptr<CanvasDecorator> CreateLineSegment(vector<string> command, ofstream& 
 		{
 			CLineSegment newLine = CLineSegment(CPoint(stod(command[1]), stod(command[2])), CPoint(stod(command[3]), stod(command[4])), command[5], newWindow);
 			outputFile << Line << ": P=" << newLine.GetPerimeter() << "; S=" << newLine.GetArea() << endl;
-			return make_unique<CLineSegment>(CPoint(stod(command[1]), stod(command[2])), CPoint(stod(command[3]), stod(command[4])), command[5], newWindow);
+			return make_shared<CLineSegment>(CPoint(stod(command[1]), stod(command[2])), CPoint(stod(command[3]), stod(command[4])), command[5], newWindow);
 		}
 		catch (const std::logic_error&)
 		{
@@ -52,7 +52,7 @@ unique_ptr<CanvasDecorator> CreateLineSegment(vector<string> command, ofstream& 
 	}
 }
 
-unique_ptr<CanvasDecorator> CreateTriangle(vector<string> command, ofstream& outputFile, sf::RenderWindow& newWindow)
+shared_ptr<ShapeDecorator> CreateTriangle(vector<string> command, ofstream& outputFile, sf::RenderWindow& newWindow)
 {
 	if (command.size() == The_Number_Of_Elements_In_Triangle)
 	{
@@ -60,7 +60,7 @@ unique_ptr<CanvasDecorator> CreateTriangle(vector<string> command, ofstream& out
 		{
 			CTriangle newLine = CTriangle(CPoint(stod(command[1]), stod(command[2])), CPoint(stod(command[3]), stod(command[4])), CPoint(stod(command[5]), stod(command[6])), command[7], command[8], newWindow);
 			outputFile << Triangle << ": P=" << newLine.GetPerimeter() << "; S=" << newLine.GetArea() << endl;
-			return make_unique<CTriangle>(CPoint(stod(command[1]), stod(command[2])), CPoint(stod(command[3]), stod(command[4])), CPoint(stod(command[5]), stod(command[6])), command[7], command[8], newWindow);
+			return make_shared<CTriangle>(CPoint(stod(command[1]), stod(command[2])), CPoint(stod(command[3]), stod(command[4])), CPoint(stod(command[5]), stod(command[6])), command[7], command[8], newWindow);
 		}
 		catch (const std::logic_error&)
 		{
@@ -73,7 +73,7 @@ unique_ptr<CanvasDecorator> CreateTriangle(vector<string> command, ofstream& out
 	}
 }
 
-unique_ptr<CanvasDecorator> CreateRectangle(vector<string> command, ofstream& outputFile, sf::RenderWindow& newWindow)
+shared_ptr<ShapeDecorator> CreateRectangle(vector<string> command, ofstream& outputFile, sf::RenderWindow& newWindow)
 {
 	if (command.size() == The_Number_Of_Elements_In_Rectangle)
 	{
@@ -81,7 +81,7 @@ unique_ptr<CanvasDecorator> CreateRectangle(vector<string> command, ofstream& ou
 		{
 			CRectangle newLine = CRectangle(CPoint(stod(command[1]), stod(command[2])), stod(command[3]), stod(command[4]), command[5], command[6], newWindow);
 			outputFile << Rectangle << ": P=" << newLine.GetPerimeter() << "; S=" << newLine.GetArea() << endl;
-			return make_unique<CRectangle>(CPoint(stod(command[1]), stod(command[2])), stod(command[3]), stod(command[4]), command[5], command[6], newWindow);
+			return make_shared<CRectangle>(CPoint(stod(command[1]), stod(command[2])), stod(command[3]), stod(command[4]), command[5], command[6], newWindow);
 		}
 		catch (const std::logic_error&)
 		{
@@ -94,7 +94,7 @@ unique_ptr<CanvasDecorator> CreateRectangle(vector<string> command, ofstream& ou
 	}
 }
 
-unique_ptr<CanvasDecorator> CreateCircle(vector<string> command, ofstream& outputFile, sf::RenderWindow& newWindow)
+shared_ptr<ShapeDecorator> CreateCircle(vector<string> command, ofstream& outputFile, sf::RenderWindow& newWindow)
 {
 	if (command.size() == The_Number_Of_Elements_In_Circle)
 	{
@@ -102,7 +102,7 @@ unique_ptr<CanvasDecorator> CreateCircle(vector<string> command, ofstream& outpu
 		{
 			CCircle newLine = CCircle(CPoint(stod(command[1]), stod(command[2])), stod(command[3]), command[4], command[5], newWindow);
 			outputFile << Circle << ": P=" << newLine.GetPerimeter() << "; S=" << newLine.GetArea() << endl;
-			return make_unique<CCircle>(CPoint(stod(command[1]), stod(command[2])), stod(command[3]), command[4], command[5], newWindow);
+			return make_shared<CCircle>(CPoint(stod(command[1]), stod(command[2])), stod(command[3]), command[4], command[5], newWindow);
 		}
 		catch (const std::logic_error&)
 		{
@@ -118,6 +118,25 @@ unique_ptr<CanvasDecorator> CreateCircle(vector<string> command, ofstream& outpu
 unique_ptr<COwnership> CreateOwnership(CPoint const& leftTopPoint, double const& width, double const& height, sf::RenderWindow& window)
 {
 	return make_unique<COwnership>(leftTopPoint, width, height, window);
+}
+
+shared_ptr<CShapeComposite> CreateGroupe(CShapeComposite shapes)
+{
+	CPoint firstCornerOfOwnershap = CPoint(0, 0);
+	CPoint secondCornerOfOwnershap = CPoint(0, 0);
+	for (const auto& shape : shapes.GetGroup())
+	{
+		CPoint firstCornerOfOwnershap = shape->GetOwnershipLeftTopPoint();
+		if (firstCornerOfOwnershap.x() < secondCornerOfOwnershap.x())
+		{
+			secondCornerOfOwnershap.setX(firstCornerOfOwnershap.x());
+		}
+		if (firstCornerOfOwnershap.y() < secondCornerOfOwnershap.y())
+		{
+			secondCornerOfOwnershap.setY(firstCornerOfOwnershap.y());
+		}
+	}
+	return make_shared<CShapeComposite>(shapes);
 }
 
 bool AreaCompare(unique_ptr<IShape> const& firstShape, unique_ptr<IShape> const& secondShape)
@@ -201,10 +220,12 @@ void CConsoleCommand::DrawShapes()
 	{
 		bool oneClick = true;
 		bool oneReleas = false;
+		bool oneGroup = true;
 		sf::RenderWindow window(sf::VideoMode(600, 600), "Draw Shapes!");
 		sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
 		while (window.isOpen())
 		{
+			bool checkEntry = true;
 			sf::Event event;
 			while (window.pollEvent(event))
 			{
@@ -226,23 +247,44 @@ void CConsoleCommand::DrawShapes()
 			if (event.type == sf::Event::MouseButtonPressed)
 			{
 				oneReleas = true;
-				m_ownerships.clear();
+				oneGroup = true;
 				if (oneClick)
 				{
 					mousePosition = sf::Mouse::getPosition(window);
-					oneClick = false;
-				}
-				for (const auto& shape : m_shapes)
-				{
-					shape->SetOwnership(mousePosition);
-					bool ownership = shape->GetOwnership(mousePosition);
-					if (ownership)
+					for (const auto& shape : m_shapes)
 					{
-						int width = shape->GetOwnershipWidth();
-						int height = shape->GetOwnershipHeight();
-						CPoint leftTopPoint = shape->GetOwnershipLeftTopPoint();
-						m_ownerships.push_back(CreateOwnership(leftTopPoint, width, height, window));
+						shape->SetOwnership(mousePosition, sf::Keyboard::isKeyPressed(sf::Keyboard::LControl));
+						if (shape->GetOwnership())
+						{
+							checkEntry = true;
+							for (const auto& group : m_groups)
+							{
+								if (group->EntryShape(shape, sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)))
+								{
+									if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
+									{
+										checkEntry = false;
+										break;
+									}
+									m_ownerships.clear();
+									CPoint leftTopPoint = group->GetOwnershipLeftTopPoint();
+									int width = group->GetOwnershipWidth();
+									int height = group->GetOwnershipHeight();
+									m_ownerships.push_back(CreateOwnership(leftTopPoint, width, height, window));
+									checkEntry = false;
+									break;
+								}
+							}
+							if (checkEntry)
+							{
+								int width = shape->GetOwnershipWidth();
+								int height = shape->GetOwnershipHeight();
+								CPoint leftTopPoint = shape->GetOwnershipLeftTopPoint();
+								m_ownerships.push_back(CreateOwnership(leftTopPoint, width, height, window));
+							}
+						}
 					}
+					oneClick = false;
 				}
 			}
 			if (event.type == sf::Event::MouseButtonReleased)
@@ -255,19 +297,80 @@ void CConsoleCommand::DrawShapes()
 					newPosition = CPoint(mousePosition.x - newMousePosition.x, mousePosition.y - newMousePosition.y);
 					oneReleas = false;
 				}
-				cout << endl;
 				for (const auto& shape : m_shapes)
 				{
-					bool ownership = shape->GetOwnership(mousePosition);
-					if (ownership)
+					if (shape->GetOwnership() && !(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)))
 					{
-						m_ownerships.clear();
-						shape->SetPosition(newPosition);
-						int width = shape->GetOwnershipWidth();
-						int height = shape->GetOwnershipHeight();
-						CPoint leftTopPoint = shape->GetOwnershipLeftTopPoint();
-						m_ownerships.push_back(CreateOwnership(leftTopPoint, width, height, window));
+						for (const auto& group : m_groups)
+						{
+							if (group->EntryShape(shape, sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)))
+							{
+								m_ownerships.clear();
+								int width = group->GetOwnershipWidth();
+								int height = group->GetOwnershipHeight();
+								CPoint leftTopPoint = group->GetOwnershipLeftTopPoint();
+								m_ownerships.push_back(CreateOwnership(leftTopPoint, width, height, window));
+								checkEntry = false;
+								break;
+							}
+						}
+						if (checkEntry)
+						{
+							m_ownerships.clear();
+							shape->SetPosition(newPosition);
+							int width = shape->GetOwnershipWidth();
+							int height = shape->GetOwnershipHeight();
+							CPoint leftTopPoint = shape->GetOwnershipLeftTopPoint();
+							m_ownerships.push_back(CreateOwnership(leftTopPoint, width, height, window));
+						}
 					}
+				}
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::G))
+			{
+				if (oneGroup)
+				{
+					bool insertShape = false;
+					std::vector<std::shared_ptr<ShapeDecorator>> group;
+					CShapeComposite newGroup = CShapeComposite(group, CPoint(0, 0));
+					for (auto& shape : m_shapes)
+					{
+						if (shape->GetOwnership())
+						{
+							for (const auto& group : m_groups)
+							{
+								if (group->GetOwnership())
+								{
+									group->insertShape(shape);
+									insertShape = true;
+								}
+							}
+							if (!insertShape)
+							{
+								newGroup.insertShape(shape);
+							}
+						}
+					}
+					if (!insertShape)
+					{
+						m_groups.push_back(CreateGroupe(newGroup));
+						oneGroup = false;
+						insertShape = false;
+					}
+				}
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::U))
+			{
+				int count = 0;
+				for (auto& group : m_groups)
+				{
+					if (group->GetOwnership())
+					{
+						group->ClearShapeList();
+						m_groups.erase(m_groups.begin() + count);
+						m_ownerships.clear();
+					}
+					count++;
 				}
 			}
 			window.display();

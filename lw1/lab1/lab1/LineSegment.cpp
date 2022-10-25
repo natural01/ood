@@ -86,19 +86,19 @@ CPoint CLineSegment::GetOwnershipLeftTopPoint()
 	return CPoint(minX, minY);
 }
 
-void CLineSegment::SetOwnership(sf::Vector2i point)
+void CLineSegment::SetOwnership(sf::Vector2i point, bool select)
 {
 	if (((point.x - m_startPoint.x()) * (m_endPoint.y() - m_startPoint.y())) - ((point.y - m_startPoint.y()) * (m_endPoint.x() - m_startPoint.x())) == 0)
 	{
 		m_ownership = true;
 	}
-	else
+	else if (!select)
 	{
 		m_ownership = false;
 	}
 }
 
-bool CLineSegment::GetOwnership(sf::Vector2i point)
+bool CLineSegment::GetOwnership()
 {
 	return m_ownership;
 }

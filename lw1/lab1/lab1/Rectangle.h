@@ -3,9 +3,9 @@
 #include "SolidShape.h"
 #include <iostream>
 #include <sstream>
-#include "CanvasDecorator.h"
+#include "ShapeDecorator.h"
 
-class CRectangle final : public CanvasDecorator
+class CRectangle final : public ShapeDecorator
 {
 public:
 	CRectangle(CPoint const& leftTopPoint, double const& width, double const& height, std::string const& outlineColor, std::string const& fillColor, sf::RenderWindow& window);
@@ -15,8 +15,8 @@ public:
 	double GetPerimeter() const override;
 	std::string ToString() const override;
 	void Draw(sf::RenderWindow& window) const override;
-	void SetOwnership(sf::Vector2i point);
-	bool GetOwnership(sf::Vector2i point);
+	void SetOwnership(sf::Vector2i point, bool select);
+	bool GetOwnership();
 
 	CPoint GetLeftTopPoint() const;
 	CPoint GetRightBottomPoint() const;

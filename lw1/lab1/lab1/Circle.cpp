@@ -79,20 +79,20 @@ CPoint CCircle::GetOwnershipLeftTopPoint()
 	return CPoint(m_center.x() - m_radius, m_center.y() -  m_radius);
 }
 
-void CCircle::SetOwnership(sf::Vector2i point)
+void CCircle::SetOwnership(sf::Vector2i point, bool select)
 {
 	int setRadius = sqrt(pow(abs(point.x - m_center.x()), 2) + pow(abs(point.y - m_center.y()), 2));
 	if (setRadius <= m_radius)
 	{
 		m_ownership = true;
 	}
-	else
+	else if (!select)
 	{
 		m_ownership = false;
 	}
 }
 
-bool CCircle::GetOwnership(sf::Vector2i point)
+bool CCircle::GetOwnership()
 {
 	return m_ownership;
 }

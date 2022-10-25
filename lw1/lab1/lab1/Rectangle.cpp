@@ -101,19 +101,19 @@ void CRectangle::Draw(sf::RenderWindow& window) const
 	window.draw(shape);
 }
 
-void CRectangle::SetOwnership(sf::Vector2i point)
+void CRectangle::SetOwnership(sf::Vector2i point, bool select)
 {
 	if ((point.x < m_leftTopPoint.x() + m_width && point.x > m_leftTopPoint.x()) && (point.y < m_leftTopPoint.y() + m_height && point.y > m_leftTopPoint.y()))
 	{
 		m_ownership = true;
 	}
-	else
+	else if (!select)
 	{
 		m_ownership = false;
 	}
 }
 
-bool CRectangle::GetOwnership(sf::Vector2i point)
+bool CRectangle::GetOwnership()
 {
 	return m_ownership;
 }
