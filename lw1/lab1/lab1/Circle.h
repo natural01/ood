@@ -19,6 +19,7 @@ public:
 	double GetRadius() const;
 	void SetOwnership(sf::Vector2i point, bool select);
 	bool GetOwnership();
+	void SetOwnership();
 
 	int GetOwnershipWidth();
 	int GetOwnershipHeight();

@@ -199,3 +199,8 @@ void CTriangle::SetPosition(CPoint newPosition)
 	m_vertex3.setX(m_vertex3.x() - newPosition.x());
 	m_vertex3.setY(m_vertex3.y() - newPosition.y());
 }
+
+void CTriangle::SetOwnership()
+{
+	m_ownership = true;
+}

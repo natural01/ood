@@ -18,6 +18,7 @@ public:
 	void Draw(sf::RenderWindow& window) const override;
 	void SetOwnership(sf::Vector2i point, bool select);
 	bool GetOwnership();
+	void SetOwnership();
 
 	CPoint GetVertex1() const;
 	CPoint GetVertex2() const;

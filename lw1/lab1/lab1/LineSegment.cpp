@@ -103,6 +103,11 @@ bool CLineSegment::GetOwnership()
 	return m_ownership;
 }
 
+void CLineSegment::SetOwnership()
+{
+	m_ownership = true;
+}
+
 void CLineSegment::SetPosition(CPoint newPosition)
 {
 	m_startPoint.setX(m_startPoint.x() - newPosition.x());

@@ -13,6 +13,7 @@ public:
 	virtual void Draw(sf::RenderWindow& windiw) const = 0;
 
 	virtual void SetOwnership(sf::Vector2i point, bool select) = 0;
+	virtual void SetOwnership() = 0;
 	virtual bool GetOwnership() = 0;
 
 	void SetFillColor(uint32_t const& color) override;

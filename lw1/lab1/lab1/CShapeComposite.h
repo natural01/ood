@@ -9,6 +9,7 @@ public:
 	~CShapeComposite() = default;
 
 	void insertShape(std::shared_ptr<ShapeDecorator> shape);
+	std::shared_ptr<ShapeDecorator> GetShape(int index);
 	void RemoutShapeAtIndex(int index);
 	void ClearShapeList();
 	std::vector<std::shared_ptr<ShapeDecorator>> GetGroup();
@@ -19,6 +20,7 @@ public:
 	int GetOwnershipHeight();
 	CPoint GetOwnershipLeftTopPoint();
 	bool EntryShape(std::shared_ptr<ShapeDecorator> shape, bool select);
+	void SetPosition(CPoint newPosition);
 
 private:
 	std::vector<std::shared_ptr<ShapeDecorator>> m_shapes;

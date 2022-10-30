@@ -123,3 +123,8 @@ void CRectangle::SetPosition(CPoint newPosition)
 	m_leftTopPoint.setX(m_leftTopPoint.x() - newPosition.x());
 	m_leftTopPoint.setY(m_leftTopPoint.y() - newPosition.y());
 }
+
+void CRectangle::SetOwnership()
+{
+	m_ownership = true;
+}

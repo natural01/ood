@@ -17,6 +17,7 @@ public:
 	void Draw(sf::RenderWindow& window) const override;
 	void SetOwnership(sf::Vector2i point, bool select);
 	bool GetOwnership();
+	void SetOwnership();
 
 	CPoint GetStartPoint() const;
 	CPoint GetEndPoint() const;

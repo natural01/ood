@@ -95,6 +95,10 @@ bool CShapeComposite::EntryShape(std::shared_ptr<ShapeDecorator> shape, bool sel
 {
 	if (std::find(m_shapes.begin(), m_shapes.end(), shape) != m_shapes.end())
 	{
+		for (const auto& shape : m_shapes)
+		{
+			shape->SetOwnership();
+		}
 		m_ownership = true;
 		return true;
 	}
@@ -106,4 +110,17 @@ bool CShapeComposite::EntryShape(std::shared_ptr<ShapeDecorator> shape, bool sel
 		}
 		return false;
 	}
+}
+
+void CShapeComposite::SetPosition(CPoint newPosition)
+{
+	for (const auto& shape : m_shapes)
+	{
+		shape->SetPosition(newPosition);
+	}
+}
+
+std::shared_ptr<ShapeDecorator> CShapeComposite::GetShape(int index)
+{
+	return m_shapes[index];
 }

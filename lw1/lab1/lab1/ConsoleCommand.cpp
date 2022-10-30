@@ -162,12 +162,12 @@ vector<string> parsing(string commandLine)
 	size_t next;
 	size_t delta = delimiter.length();
 
-	while ((next = commandLine.find(delimiter, prev)) != string::npos) {
-		arr.push_back(commandLine.substr(prev, next - prev));
-		prev = next + delta;
-	}
-	arr.push_back(commandLine.substr(prev));
-	return arr;
+while ((next = commandLine.find(delimiter, prev)) != string::npos) {
+	arr.push_back(commandLine.substr(prev, next - prev));
+	prev = next + delta;
+}
+arr.push_back(commandLine.substr(prev));
+return arr;
 }
 
 void CConsoleCommand::DoCommand(ifstream& inputfile, ofstream& outputFile)
@@ -214,7 +214,7 @@ void CConsoleCommand::DoCommand(ifstream& inputfile, ofstream& outputFile)
 	}
 }
 
-void CConsoleCommand::DrawShapes() 
+void CConsoleCommand::DrawShapes()
 {
 	if (!m_shapes.empty())
 	{
@@ -261,12 +261,10 @@ void CConsoleCommand::DrawShapes()
 							{
 								if (group->EntryShape(shape, sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)))
 								{
-									if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
+									if (!sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
 									{
-										checkEntry = false;
-										break;
+										m_ownerships.clear();
 									}
-									m_ownerships.clear();
 									CPoint leftTopPoint = group->GetOwnershipLeftTopPoint();
 									int width = group->GetOwnershipWidth();
 									int height = group->GetOwnershipHeight();
@@ -306,6 +304,7 @@ void CConsoleCommand::DrawShapes()
 							if (group->EntryShape(shape, sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)))
 							{
 								m_ownerships.clear();
+								group->SetPosition(newPosition);
 								int width = group->GetOwnershipWidth();
 								int height = group->GetOwnershipHeight();
 								CPoint leftTopPoint = group->GetOwnershipLeftTopPoint();
@@ -330,33 +329,32 @@ void CConsoleCommand::DrawShapes()
 			{
 				if (oneGroup)
 				{
-					bool insertShape = false;
 					std::vector<std::shared_ptr<ShapeDecorator>> group;
+					vector<int> indexesForRemove;
 					CShapeComposite newGroup = CShapeComposite(group, CPoint(0, 0));
+					int count = 0;
+					for (const auto& group : m_groups)
+					{
+						if (group->GetOwnership())
+						{
+							indexesForRemove.push_back(count);
+							continue;
+						}
+						count++;
+					}
+					for (int index : indexesForRemove)
+					{
+						m_groups.erase(m_groups.begin() + index);
+					}
 					for (auto& shape : m_shapes)
 					{
 						if (shape->GetOwnership())
 						{
-							for (const auto& group : m_groups)
-							{
-								if (group->GetOwnership())
-								{
-									group->insertShape(shape);
-									insertShape = true;
-								}
-							}
-							if (!insertShape)
-							{
-								newGroup.insertShape(shape);
-							}
+							newGroup.insertShape(shape);
 						}
 					}
-					if (!insertShape)
-					{
-						m_groups.push_back(CreateGroupe(newGroup));
-						oneGroup = false;
-						insertShape = false;
-					}
+					m_groups.push_back(CreateGroupe(newGroup));
+					oneGroup = false;
 				}
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::U))

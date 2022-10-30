@@ -102,3 +102,8 @@ void CCircle::SetPosition(CPoint newPosition)
 	m_center.setX(m_center.x() - newPosition.x());
 	m_center.setY(m_center.y() - newPosition.y());
 }
+
+void CCircle::SetOwnership()
+{
+	m_ownership = true;
+}
