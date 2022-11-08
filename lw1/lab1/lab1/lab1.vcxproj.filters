@@ -51,6 +51,9 @@
     <ClCompile Include="CShapeComposite.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Circle.h">
@@ -95,8 +98,16 @@
     <ClInclude Include="CShapeComposite.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="test.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="CyrilicOld.TTF">
+      <Filter>Исходные файлы</Filter>
+    </Font>
   </ItemGroup>
 </Project>

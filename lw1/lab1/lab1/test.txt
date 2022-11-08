@@ -3,4 +3,5 @@ Triangle 250 25 325 40 175 40 000000 fc2c54
 Circle 350 225 50 000000 010101
 Circle 0 0 50 000000 ffffff
 Rectangle 265 500 150 100 fc2c54 fc2c54
+Rectangle 365 400 150 100 fc2c54 ffffff
 LineSegment 98 76 89 200 fc2c54

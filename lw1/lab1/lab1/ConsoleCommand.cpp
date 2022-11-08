@@ -174,7 +174,7 @@ void CConsoleCommand::DoCommand(ifstream& inputfile, ofstream& outputFile)
 {
 	string commandLine;
 	vector<string> command;
-	sf::RenderWindow window(sf::VideoMode(600, 600), "Draw Shapes!");
+	sf::RenderWindow window(sf::VideoMode(600, 1800), "Draw Shapes!");
 	while (getline(inputfile, commandLine))
 	{
 		try
@@ -216,12 +216,13 @@ void CConsoleCommand::DoCommand(ifstream& inputfile, ofstream& outputFile)
 
 void CConsoleCommand::DrawShapes()
 {
+	auto& instance = Application::getInstance();
 	if (!m_shapes.empty())
 	{
 		bool oneClick = true;
 		bool oneReleas = false;
 		bool oneGroup = true;
-		sf::RenderWindow window(sf::VideoMode(600, 600), "Draw Shapes!");
+		sf::RenderWindow window(sf::VideoMode(1000, 600), "Draw Shapes!");
 		sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
 		while (window.isOpen())
 		{
@@ -235,11 +236,20 @@ void CConsoleCommand::DrawShapes()
 				}
 			}
 			window.clear(sf::Color(255, 255, 255));
+			bool ownership = false;
+
+			instance.drowPanel(window);
+			if (!(m_ownerships.empty()))
+				instance.drowPanelForChangeFigure(window);
 
 			for (const auto& shape : m_shapes)
 			{
+				if (shape->GetOwnership())
+					ownership = true;
 				shape->Draw(window);
 			}
+			if (!ownership)
+				m_ownerships.clear();
 			for (const auto& ownership : m_ownerships)
 			{
 				ownership->Draw(window);
@@ -251,6 +261,10 @@ void CConsoleCommand::DrawShapes()
 				if (oneClick)
 				{
 					mousePosition = sf::Mouse::getPosition(window);
+					if (instance.buttonPressed(mousePosition))
+					{
+						continue;
+					}
 					for (const auto& shape : m_shapes)
 					{
 						shape->SetOwnership(mousePosition, sf::Keyboard::isKeyPressed(sf::Keyboard::LControl));

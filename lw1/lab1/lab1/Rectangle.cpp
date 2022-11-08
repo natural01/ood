@@ -98,6 +98,7 @@ void CRectangle::Draw(sf::RenderWindow& window) const
 	}
 	shape.setOutlineThickness(1);
 	shape.setOutlineColor(GetValidateColor(GetOutlineColor()));
+	shape.setFillColor(GetValidateColor(GetFillColor()));
 	window.draw(shape);
 }
 

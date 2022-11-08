@@ -4,6 +4,7 @@
 #include "ShapeDecorator.h"
 #include "Ownership.h"
 #include "CShapeComposite.h"
+#include "Application.h"
 
 class CConsoleCommand
 {
