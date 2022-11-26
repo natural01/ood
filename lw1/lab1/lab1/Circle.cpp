@@ -60,7 +60,7 @@ void CCircle::Draw(sf::RenderWindow& window) const
 {
 	sf::CircleShape circle((float)m_radius);
 	circle.setFillColor(GetValidateColor(GetFillColor()));
-	circle.setOutlineThickness(1);
+	circle.setOutlineThickness(GetBorder());
 	circle.setOutlineColor(GetValidateColor(GetOutlineColor()));
 	circle.move((float)(m_center.x() - m_radius), (float)(m_center.y() - m_radius));
 	window.draw(circle);
@@ -106,4 +106,9 @@ void CCircle::SetPosition(CPoint newPosition)
 void CCircle::SetOwnership()
 {
 	m_ownership = true;
+}
+
+void CCircle::SetBorder(int borderSize)
+{
+
 }

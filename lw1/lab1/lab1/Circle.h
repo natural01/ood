@@ -20,6 +20,7 @@ public:
 	void SetOwnership(sf::Vector2i point, bool select);
 	bool GetOwnership();
 	void SetOwnership();
+	void SetBorder(int borderSize);
 
 	int GetOwnershipWidth();
 	int GetOwnershipHeight();

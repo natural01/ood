@@ -5,3 +5,14 @@ Circle: P=314.159; S=7853.98
 Rectangle: P=500; S=15000
 Rectangle: P=500; S=15000
 LineSegment: P=124.326; S=0
+Triangle: P=323.607; S=5000
+Triangle: P=323.607; S=5000
+Triangle: P=323.607; S=5000
+Triangle: P=323.607; S=5000
+Triangle: P=323.607; S=5000
+Triangle: P=323.607; S=5000
+Triangle: P=323.607; S=5000
+Triangle: P=323.607; S=5000
+Triangle: P=323.607; S=5000
+Triangle: P=323.607; S=5000
+Triangle: P=323.607; S=5000

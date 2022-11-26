@@ -5,6 +5,7 @@
 #include "Ownership.h"
 #include "CShapeComposite.h"
 #include "Application.h"
+#include "States.h"
 
 class CConsoleCommand
 {
@@ -13,7 +14,11 @@ public:
 	~CConsoleCommand() = default;
 
 	void DoCommand(std::ifstream& file, std::ofstream& outputFile);
-	void DrawShapes();
+	void DrawShapes(std::ofstream& outputFile);
+
+	void updateFromMenu(addFigure state, sf::RenderWindow& window);
+	void updateFromMenu(ColorState state);
+	void updateFromMenu(BorderSizeState state);
 
 private:
 	std::vector<std::shared_ptr<ShapeDecorator>> m_shapes;

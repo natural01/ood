@@ -13,6 +13,7 @@
 #include "SolidShape.h"
 #include "Triangle.h"
 #include "ShapeDecorator.h"
+#include "States.h"
 #include <fstream>
 
 using namespace std;
@@ -30,6 +31,55 @@ string const Rectangle = "Rectangle";
 string const Circle = "Circle";
 string const Info_Max_Area = "Shape with max area:\n";
 string const Info_Min_Perimeter = "Shape with min perimeter:\n";
+
+vector<string> createDefoltCircle()
+{
+	vector<string> command;
+	command.push_back("Circle");
+	command.push_back("200");
+	command.push_back("500");
+	command.push_back("50");
+	command.push_back("000000");
+	command.push_back("ffffff");
+	return command;
+}
+vector<string> createDefoltRectangle()
+{
+	vector<string> command;
+	command.push_back("Rectangle");
+	command.push_back("200");
+	command.push_back("500");
+	command.push_back("150");
+	command.push_back("100");
+	command.push_back("000000");
+	command.push_back("ffffff");
+	return command;
+}
+vector<string> createDefoltLine()
+{
+	vector<string> command;
+	command.push_back("LineSegment");
+	command.push_back("200");
+	command.push_back("500");
+	command.push_back("300");
+	command.push_back("600");
+	command.push_back("000000");
+	return command;
+}
+vector<string> createDefoltTriangle()
+{
+	vector<string> command;
+	command.push_back("Triangle");
+	command.push_back("350");
+	command.push_back("400");
+	command.push_back("300");
+	command.push_back("500");
+	command.push_back("400");
+	command.push_back("500");
+	command.push_back("000000");
+	command.push_back("ffffff");
+	return command;
+}
 
 shared_ptr<ShapeDecorator> CreateLineSegment(vector<string> command, ofstream& outputFile, sf::RenderWindow& newWindow)
 {
@@ -149,6 +199,79 @@ bool PerimeterCompare(unique_ptr<IShape> const& firstShape, unique_ptr<IShape> c
 	return firstShape->GetPerimeter() < secondShape->GetPerimeter();
 }
 
+void CConsoleCommand::updateFromMenu(addFigure state, sf::RenderWindow& window)
+{
+	CPoint center = CPoint(300, 700);
+	if (state == addFigure::addCircle)
+	{
+		m_shapes.push_back(make_shared<CCircle>(center, 50, "000", "fff", window));
+	}
+	if (state == addFigure::addLine)
+	{
+		CPoint finish = CPoint(400, 700);
+		m_shapes.push_back(make_shared<CLineSegment>(center, finish, "000", window));
+	}
+	if (state == addFigure::addRectangle)
+	{
+		m_shapes.push_back(make_shared<CRectangle>(center, 50, 50, "000", "fff", window));
+	}
+	if (state == addFigure::addTriangle)
+	{
+		CPoint vertex1 = CPoint(400, 700);
+		CPoint vertex2 = CPoint(350, 600);
+		m_shapes.push_back(make_shared<CTriangle>(center, vertex1, vertex2, "000", "fff", window));
+	}
+}
+
+void CConsoleCommand::updateFromMenu(ColorState state)
+{
+	for (const auto& shape : m_shapes)
+	{
+		if (shape->GetOwnership())
+		{
+			switch (state)
+			{
+			case ColorState::ChangeColorForBlack:
+				shape->SetFillColor(0);
+				break;
+			case ColorState::ChangeColorForWhite:
+				shape->SetFillColor(16777215);
+				break;
+			case ColorState::ChangeColorForRed:
+				shape->SetFillColor(16711680);
+				break;
+			case ColorState::ChangeColorForBlue:
+				shape->SetFillColor(255);
+				break;
+			case ColorState::ChangeColorForGreen:
+				shape->SetFillColor(32768);
+				break;
+			}
+		}
+	}
+}
+
+void CConsoleCommand::updateFromMenu(BorderSizeState state)
+{
+	for (const auto& shape : m_shapes)
+	{
+		if (shape->GetOwnership())
+		{
+			switch (state)
+			{
+			case BorderSizeState::ChangeSizeFor1:
+				shape->SetBorder(1);
+				break;
+			case BorderSizeState::ChangeSizeFor2:
+				shape->SetBorder(2);
+				break;
+			case BorderSizeState::ChangeSizeFor3:
+				shape->SetBorder(3);
+				break;
+			}
+		}
+	}
+}
 
 vector<string> parsing(string commandLine)
 {
@@ -214,7 +337,7 @@ void CConsoleCommand::DoCommand(ifstream& inputfile, ofstream& outputFile)
 	}
 }
 
-void CConsoleCommand::DrawShapes()
+void CConsoleCommand::DrawShapes(ofstream& outputFile)
 {
 	auto& instance = Application::getInstance();
 	if (!m_shapes.empty())
@@ -261,8 +384,71 @@ void CConsoleCommand::DrawShapes()
 				if (oneClick)
 				{
 					mousePosition = sf::Mouse::getPosition(window);
-					if (instance.buttonPressed(mousePosition))
+					if (instance.buttonPressed(mousePosition) && (instance.getAddFigureState() != addFigure::None || instance.getColorState() != ColorState::None || instance.getBorderState() != BorderSizeState::None))
 					{
+						switch (instance.getAddFigureState())
+						{
+						case addFigure::addCircle:
+							m_shapes.push_back(CreateCircle(createDefoltCircle(), outputFile, window));
+							break;
+						case addFigure::addLine:
+							m_shapes.push_back(CreateLineSegment(createDefoltLine(), outputFile, window));
+							break;
+						case addFigure::addRectangle:
+							m_shapes.push_back(CreateRectangle(createDefoltRectangle(), outputFile, window));
+							break;
+						case addFigure::addTriangle:
+							m_shapes.push_back(CreateTriangle(createDefoltTriangle(), outputFile, window));
+							break;
+						}
+						switch (instance.getBorderState())
+						{
+						case BorderSizeState::ChangeSizeFor1:
+							for (const auto& shape : m_shapes)
+								if (shape->GetOwnership())
+									shape->SetBorder(1);
+							break;
+						case BorderSizeState::ChangeSizeFor2:
+							for (const auto& shape : m_shapes)
+								if (shape->GetOwnership())
+									shape->SetBorder(2);
+							break;
+						case BorderSizeState::ChangeSizeFor3:
+							for (const auto& shape : m_shapes)
+								if (shape->GetOwnership())
+									shape->SetBorder(3);
+							break;
+						}
+						switch (instance.getColorState())
+						{
+						case ColorState::ChangeColorForBlack:
+							for (const auto& shape : m_shapes)
+								if (shape->GetOwnership())
+									shape->SetFillColor(0);
+							break;
+						case ColorState::ChangeColorForBlue:
+							for (const auto& shape : m_shapes)
+								if (shape->GetOwnership())
+									shape->SetFillColor(255);
+							break;
+						case ColorState::ChangeColorForGreen:
+							for (const auto& shape : m_shapes)
+								if (shape->GetOwnership())
+									shape->SetFillColor(32768);
+							break;
+						case ColorState::ChangeColorForRed:
+							for (const auto& shape : m_shapes)
+								if (shape->GetOwnership())
+									shape->SetFillColor(16711680);
+							break;
+						case ColorState::ChangeColorForWhite:
+							for (const auto& shape : m_shapes)
+								if (shape->GetOwnership())
+									shape->SetFillColor(16777215);
+							break;
+						}
+
+						instance.nullState();
 						continue;
 					}
 					for (const auto& shape : m_shapes)

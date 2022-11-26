@@ -159,6 +159,7 @@
     <ClInclude Include="SolidShape.h" />
     <ClInclude Include="iSolidShape.h" />
     <ClInclude Include="IShape.h" />
+    <ClInclude Include="States.h" />
     <ClInclude Include="Triangle.h" />
   </ItemGroup>
   <ItemGroup>

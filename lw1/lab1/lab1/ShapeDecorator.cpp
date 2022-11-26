@@ -17,6 +17,16 @@ void ShapeDecorator::SetOutlineColor(uint32_t const& color)
 	CShape::SetOutlineColor(color);
 }
 
+void ShapeDecorator::SetBorder(int borderSize)
+{
+	m_borederSize = borderSize;
+}
+
+int ShapeDecorator::GetBorder() const
+{
+	return m_borederSize;
+}
+
 uint32_t ShapeDecorator::GetOutlineColor() const
 {
 	return CShape::GetOutlineColor();

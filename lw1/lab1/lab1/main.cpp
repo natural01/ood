@@ -18,7 +18,7 @@ int main()
 	CConsoleCommand consoleCommand;
 	consoleCommand.DoCommand(inputFile, outputFile);
 
-	consoleCommand.DrawShapes();
+	consoleCommand.DrawShapes(outputFile);
 
 	return 0;
 }

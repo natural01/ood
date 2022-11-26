@@ -79,6 +79,7 @@ void CTriangle::Draw(sf::RenderWindow& window) const
 	{
 		shape.setPoint(i, sf::Vector2f((float)points[i].x(), (float)points[i].y()));
 	}
+	shape.setOutlineThickness(GetBorder());
 	shape.setFillColor(GetValidateColor(GetFillColor()));
 	shape.setOutlineColor(GetValidateColor(GetOutlineColor()));
 	window.draw(shape);

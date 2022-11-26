@@ -200,3 +200,25 @@ bool Application::buttonPressed(sf::Vector2i point)
 	}
 	return false;
 }
+
+void Application::nullState()
+{
+	m_addFigure = addFigure::None;
+	m_borderSizeState = BorderSizeState::None;
+	m_colorState = ColorState::None;
+}
+
+ColorState Application::getColorState()
+{
+	return m_colorState;
+}
+
+BorderSizeState Application::getBorderState()
+{
+	return m_borderSizeState;
+}
+
+addFigure Application::getAddFigureState()
+{
+	return m_addFigure;
+}

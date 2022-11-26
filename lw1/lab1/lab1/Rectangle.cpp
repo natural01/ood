@@ -96,7 +96,7 @@ void CRectangle::Draw(sf::RenderWindow& window) const
 	{
 		shape.setPoint(i, sf::Vector2f((float)points[i].x(), (float)points[i].y()));
 	}
-	shape.setOutlineThickness(1);
+	shape.setOutlineThickness(GetBorder());
 	shape.setOutlineColor(GetValidateColor(GetOutlineColor()));
 	shape.setFillColor(GetValidateColor(GetFillColor()));
 	window.draw(shape);

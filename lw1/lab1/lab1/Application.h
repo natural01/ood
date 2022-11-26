@@ -4,6 +4,8 @@
 #include "LineSegment.h"
 #include "Rectangle.h"
 #include "Point.h"
+#include "ConsoleCommand.h"
+#include "States.h"
 
 class Application
 {
@@ -15,37 +17,15 @@ public:
 	};
 	Application(const Application&) = delete;
 	Application& operator=(const Application&) = delete;
-
-	enum class addFigure
-	{
-		None,
-		addCircle,
-		addTriangle,
-		addRectangle,
-		addLine,
-	};
-	enum class ColorState
-	{
-		None,
-		ChangeColorForRed,
-		ChangeColorForGreen,
-		ChangeColorForBlue,
-		ChangeColorForBlack,
-		ChangeColorForWhite,
-	};
-	enum class BorderSizeState
-	{
-		None,
-		ChangeSizeFor1,
-		ChangeSizeFor2,
-		ChangeSizeFor3,
-	};
-
-	BorderSizeState getBorderSizeState();
-
+	 
 	void drowPanel(sf::RenderWindow& window);
 	void drowPanelForChangeFigure(sf::RenderWindow& window);
 	bool buttonPressed(sf::Vector2i point);
+	void nullState();
+
+	ColorState getColorState();
+	BorderSizeState getBorderState();
+	addFigure getAddFigureState();
 private:
 	Application()
 	{
