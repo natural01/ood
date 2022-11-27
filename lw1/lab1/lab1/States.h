@@ -1,13 +1,5 @@
 #pragma once
 
-enum class addFigure
-{
-	None,
-	addCircle,
-	addTriangle,
-	addRectangle,
-	addLine,
-};
 enum class ColorState
 {
 	None,
@@ -17,10 +9,11 @@ enum class ColorState
 	ChangeColorForBlack,
 	ChangeColorForWhite,
 };
-enum class BorderSizeState
+
+enum class figures
 {
-	None,
-	ChangeSizeFor1,
-	ChangeSizeFor2,
-	ChangeSizeFor3,
+	Triangle,
+	Rectangle,
+	Line,
+	Circle,
 };

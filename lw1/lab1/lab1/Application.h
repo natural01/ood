@@ -7,31 +7,30 @@
 #include "ConsoleCommand.h"
 #include "States.h"
 
+class CConsoleCommand;
 class Application
 {
 public:
-	static Application& getInstance()
+	static Application& getInstance(CConsoleCommand* observer, sf::RenderWindow& window)
 	{
-		static Application instance;
+		static Application instance(observer, window);
 		return instance;
 	};
 	Application(const Application&) = delete;
 	Application& operator=(const Application&) = delete;
 	 
-	void drowPanel(sf::RenderWindow& window);
-	void drowPanelForChangeFigure(sf::RenderWindow& window);
+	void drowPanel();
+	void drowPanelForChangeFigure();
 	bool buttonPressed(sf::Vector2i point);
 	void nullState();
 
 	ColorState getColorState();
-	BorderSizeState getBorderState();
-	addFigure getAddFigureState();
 private:
-	Application()
+	Application(CConsoleCommand* observer, sf::RenderWindow& window): m_observer(observer), m_window(window)
 	{
 	}
 	std::vector<CRectangle> m_buttons;
 	ColorState m_colorState = ColorState::None;
-	BorderSizeState m_borderSizeState = BorderSizeState::None;
-	addFigure m_addFigure = addFigure::None;
+	CConsoleCommand* m_observer;
+	sf::RenderWindow& m_window;
 };

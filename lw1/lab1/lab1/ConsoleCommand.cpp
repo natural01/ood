@@ -81,14 +81,18 @@ vector<string> createDefoltTriangle()
 	return command;
 }
 
-shared_ptr<ShapeDecorator> CreateLineSegment(vector<string> command, ofstream& outputFile, sf::RenderWindow& newWindow)
+std::vector<std::shared_ptr<ShapeDecorator>> CConsoleCommand::getShapes()
+{
+	return m_shapes;
+}
+
+shared_ptr<ShapeDecorator> CreateLineSegment(vector<string> command, sf::RenderWindow& newWindow)
 {
 	if (command.size() == The_Number_Of_Elements_In_Line)
 	{
 		try
 		{
 			CLineSegment newLine = CLineSegment(CPoint(stod(command[1]), stod(command[2])), CPoint(stod(command[3]), stod(command[4])), command[5], newWindow);
-			outputFile << Line << ": P=" << newLine.GetPerimeter() << "; S=" << newLine.GetArea() << endl;
 			return make_shared<CLineSegment>(CPoint(stod(command[1]), stod(command[2])), CPoint(stod(command[3]), stod(command[4])), command[5], newWindow);
 		}
 		catch (const std::logic_error&)
@@ -102,14 +106,13 @@ shared_ptr<ShapeDecorator> CreateLineSegment(vector<string> command, ofstream& o
 	}
 }
 
-shared_ptr<ShapeDecorator> CreateTriangle(vector<string> command, ofstream& outputFile, sf::RenderWindow& newWindow)
+shared_ptr<ShapeDecorator> CreateTriangle(vector<string> command, sf::RenderWindow& newWindow)
 {
 	if (command.size() == The_Number_Of_Elements_In_Triangle)
 	{
 		try
 		{
 			CTriangle newLine = CTriangle(CPoint(stod(command[1]), stod(command[2])), CPoint(stod(command[3]), stod(command[4])), CPoint(stod(command[5]), stod(command[6])), command[7], command[8], newWindow);
-			outputFile << Triangle << ": P=" << newLine.GetPerimeter() << "; S=" << newLine.GetArea() << endl;
 			return make_shared<CTriangle>(CPoint(stod(command[1]), stod(command[2])), CPoint(stod(command[3]), stod(command[4])), CPoint(stod(command[5]), stod(command[6])), command[7], command[8], newWindow);
 		}
 		catch (const std::logic_error&)
@@ -123,14 +126,13 @@ shared_ptr<ShapeDecorator> CreateTriangle(vector<string> command, ofstream& outp
 	}
 }
 
-shared_ptr<ShapeDecorator> CreateRectangle(vector<string> command, ofstream& outputFile, sf::RenderWindow& newWindow)
+shared_ptr<ShapeDecorator> CreateRectangle(vector<string> command, sf::RenderWindow& newWindow)
 {
 	if (command.size() == The_Number_Of_Elements_In_Rectangle)
 	{
 		try
 		{
 			CRectangle newLine = CRectangle(CPoint(stod(command[1]), stod(command[2])), stod(command[3]), stod(command[4]), command[5], command[6], newWindow);
-			outputFile << Rectangle << ": P=" << newLine.GetPerimeter() << "; S=" << newLine.GetArea() << endl;
 			return make_shared<CRectangle>(CPoint(stod(command[1]), stod(command[2])), stod(command[3]), stod(command[4]), command[5], command[6], newWindow);
 		}
 		catch (const std::logic_error&)
@@ -144,14 +146,13 @@ shared_ptr<ShapeDecorator> CreateRectangle(vector<string> command, ofstream& out
 	}
 }
 
-shared_ptr<ShapeDecorator> CreateCircle(vector<string> command, ofstream& outputFile, sf::RenderWindow& newWindow)
+shared_ptr<ShapeDecorator> CreateCircle(vector<string> command, sf::RenderWindow& newWindow)
 {
 	if (command.size() == The_Number_Of_Elements_In_Circle)
 	{
 		try
 		{
 			CCircle newLine = CCircle(CPoint(stod(command[1]), stod(command[2])), stod(command[3]), command[4], command[5], newWindow);
-			outputFile << Circle << ": P=" << newLine.GetPerimeter() << "; S=" << newLine.GetArea() << endl;
 			return make_shared<CCircle>(CPoint(stod(command[1]), stod(command[2])), stod(command[3]), command[4], command[5], newWindow);
 		}
 		catch (const std::logic_error&)
@@ -199,27 +200,22 @@ bool PerimeterCompare(unique_ptr<IShape> const& firstShape, unique_ptr<IShape> c
 	return firstShape->GetPerimeter() < secondShape->GetPerimeter();
 }
 
-void CConsoleCommand::updateFromMenu(addFigure state, sf::RenderWindow& window)
+void CConsoleCommand::addShapes(figures newFigure, sf::RenderWindow& window)
 {
-	CPoint center = CPoint(300, 700);
-	if (state == addFigure::addCircle)
+	switch (newFigure)
 	{
-		m_shapes.push_back(make_shared<CCircle>(center, 50, "000", "fff", window));
-	}
-	if (state == addFigure::addLine)
-	{
-		CPoint finish = CPoint(400, 700);
-		m_shapes.push_back(make_shared<CLineSegment>(center, finish, "000", window));
-	}
-	if (state == addFigure::addRectangle)
-	{
-		m_shapes.push_back(make_shared<CRectangle>(center, 50, 50, "000", "fff", window));
-	}
-	if (state == addFigure::addTriangle)
-	{
-		CPoint vertex1 = CPoint(400, 700);
-		CPoint vertex2 = CPoint(350, 600);
-		m_shapes.push_back(make_shared<CTriangle>(center, vertex1, vertex2, "000", "fff", window));
+	case figures::Triangle:
+		m_shapes.push_back(CreateTriangle(createDefoltTriangle(), window));
+		break;
+	case figures::Circle:
+		m_shapes.push_back(CreateCircle(createDefoltCircle(), window));
+		break;
+	case figures::Rectangle:
+		m_shapes.push_back(CreateRectangle(createDefoltRectangle(), window));
+		break;
+	case figures::Line:
+		m_shapes.push_back(CreateLineSegment(createDefoltLine(), window));
+		break;
 	}
 }
 
@@ -245,28 +241,6 @@ void CConsoleCommand::updateFromMenu(ColorState state)
 				break;
 			case ColorState::ChangeColorForGreen:
 				shape->SetFillColor(32768);
-				break;
-			}
-		}
-	}
-}
-
-void CConsoleCommand::updateFromMenu(BorderSizeState state)
-{
-	for (const auto& shape : m_shapes)
-	{
-		if (shape->GetOwnership())
-		{
-			switch (state)
-			{
-			case BorderSizeState::ChangeSizeFor1:
-				shape->SetBorder(1);
-				break;
-			case BorderSizeState::ChangeSizeFor2:
-				shape->SetBorder(2);
-				break;
-			case BorderSizeState::ChangeSizeFor3:
-				shape->SetBorder(3);
 				break;
 			}
 		}
@@ -311,19 +285,19 @@ void CConsoleCommand::DoCommand(ifstream& inputfile, ofstream& outputFile)
 
 			if (command[0] == Line)
 			{
-				m_shapes.push_back(CreateLineSegment(command, outputFile, window));
+				m_shapes.push_back(CreateLineSegment(command, window));
 			}
 			else if (command[0] == Triangle)
 			{
-				m_shapes.push_back(CreateTriangle(command, outputFile, window));
+				m_shapes.push_back(CreateTriangle(command, window));
 			}
 			else if (command[0] == Rectangle)
 			{
-				m_shapes.push_back(CreateRectangle(command, outputFile, window));
+				m_shapes.push_back(CreateRectangle(command, window));
 			}
 			else if (command[0] == Circle)
 			{
-				m_shapes.push_back(CreateCircle(command, outputFile, window));
+				m_shapes.push_back(CreateCircle(command, window));
 			}
 			else
 			{
@@ -339,13 +313,13 @@ void CConsoleCommand::DoCommand(ifstream& inputfile, ofstream& outputFile)
 
 void CConsoleCommand::DrawShapes(ofstream& outputFile)
 {
-	auto& instance = Application::getInstance();
 	if (!m_shapes.empty())
 	{
 		bool oneClick = true;
 		bool oneReleas = false;
 		bool oneGroup = true;
 		sf::RenderWindow window(sf::VideoMode(1000, 600), "Draw Shapes!");
+		auto& instance = Application::getInstance(this, window);
 		sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
 		while (window.isOpen())
 		{
@@ -361,9 +335,9 @@ void CConsoleCommand::DrawShapes(ofstream& outputFile)
 			window.clear(sf::Color(255, 255, 255));
 			bool ownership = false;
 
-			instance.drowPanel(window);
+			instance.drowPanel();
 			if (!(m_ownerships.empty()))
-				instance.drowPanelForChangeFigure(window);
+				instance.drowPanelForChangeFigure();
 
 			for (const auto& shape : m_shapes)
 			{
@@ -384,71 +358,9 @@ void CConsoleCommand::DrawShapes(ofstream& outputFile)
 				if (oneClick)
 				{
 					mousePosition = sf::Mouse::getPosition(window);
-					if (instance.buttonPressed(mousePosition) && (instance.getAddFigureState() != addFigure::None || instance.getColorState() != ColorState::None || instance.getBorderState() != BorderSizeState::None))
+					if (instance.buttonPressed(mousePosition))
 					{
-						switch (instance.getAddFigureState())
-						{
-						case addFigure::addCircle:
-							m_shapes.push_back(CreateCircle(createDefoltCircle(), outputFile, window));
-							break;
-						case addFigure::addLine:
-							m_shapes.push_back(CreateLineSegment(createDefoltLine(), outputFile, window));
-							break;
-						case addFigure::addRectangle:
-							m_shapes.push_back(CreateRectangle(createDefoltRectangle(), outputFile, window));
-							break;
-						case addFigure::addTriangle:
-							m_shapes.push_back(CreateTriangle(createDefoltTriangle(), outputFile, window));
-							break;
-						}
-						switch (instance.getBorderState())
-						{
-						case BorderSizeState::ChangeSizeFor1:
-							for (const auto& shape : m_shapes)
-								if (shape->GetOwnership())
-									shape->SetBorder(1);
-							break;
-						case BorderSizeState::ChangeSizeFor2:
-							for (const auto& shape : m_shapes)
-								if (shape->GetOwnership())
-									shape->SetBorder(2);
-							break;
-						case BorderSizeState::ChangeSizeFor3:
-							for (const auto& shape : m_shapes)
-								if (shape->GetOwnership())
-									shape->SetBorder(3);
-							break;
-						}
-						switch (instance.getColorState())
-						{
-						case ColorState::ChangeColorForBlack:
-							for (const auto& shape : m_shapes)
-								if (shape->GetOwnership())
-									shape->SetFillColor(0);
-							break;
-						case ColorState::ChangeColorForBlue:
-							for (const auto& shape : m_shapes)
-								if (shape->GetOwnership())
-									shape->SetFillColor(255);
-							break;
-						case ColorState::ChangeColorForGreen:
-							for (const auto& shape : m_shapes)
-								if (shape->GetOwnership())
-									shape->SetFillColor(32768);
-							break;
-						case ColorState::ChangeColorForRed:
-							for (const auto& shape : m_shapes)
-								if (shape->GetOwnership())
-									shape->SetFillColor(16711680);
-							break;
-						case ColorState::ChangeColorForWhite:
-							for (const auto& shape : m_shapes)
-								if (shape->GetOwnership())
-									shape->SetFillColor(16777215);
-							break;
-						}
-
-						instance.nullState();
+						checkEntry = true;
 						continue;
 					}
 					for (const auto& shape : m_shapes)

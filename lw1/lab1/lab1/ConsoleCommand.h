@@ -16,9 +16,10 @@ public:
 	void DoCommand(std::ifstream& file, std::ofstream& outputFile);
 	void DrawShapes(std::ofstream& outputFile);
 
-	void updateFromMenu(addFigure state, sf::RenderWindow& window);
 	void updateFromMenu(ColorState state);
-	void updateFromMenu(BorderSizeState state);
+
+	void addShapes(figures newFigure, sf::RenderWindow& window);
+	std::vector<std::shared_ptr<ShapeDecorator>> getShapes();
 
 private:
 	std::vector<std::shared_ptr<ShapeDecorator>> m_shapes;
