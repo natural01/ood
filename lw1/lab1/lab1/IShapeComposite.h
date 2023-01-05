@@ -1,7 +1,7 @@
 #pragma once
 #include "ShapeDecorator.h"
 
-class IShapeComposite
+class IShapeComposite : public ShapeDecorator
 {
 public:
 	virtual ~IShapeComposite() = default;

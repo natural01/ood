@@ -4,6 +4,7 @@
 #include "SolidShape.h"
 #include "Point.h"
 #include <SFML/Graphics.hpp>
+#include "Ownership.h"
 
 class ShapeDecorator : public CSolidShape
 {
@@ -12,9 +13,13 @@ public:
 
 	virtual void Draw(sf::RenderWindow& windiw) const = 0;
 
-	virtual void SetOwnership(sf::Vector2i point, bool select) = 0;
-	virtual void SetOwnership() = 0;
-	virtual bool GetOwnership() = 0;
+	virtual void SetSelect(sf::Vector2i point, bool select) = 0;
+	virtual void SetSelect(bool select) = 0;
+	virtual bool GetSelect() = 0;
+	virtual COwnership GetOwnership() = 0;
+	CPoint GetSelectLeftTopPoint();
+	int GetSelectWidth();
+	int GetSelectHeight();
 
 	void SetFillColor(uint32_t const& color) override;
 	uint32_t GetFillColor() const;
@@ -24,13 +29,7 @@ public:
 	int GetBorder() const;
 	void SetBorder(int borderSize) override;
 
-	virtual int GetOwnershipWidth() = 0;
-	virtual int GetOwnershipHeight() = 0;
-	virtual CPoint GetOwnershipLeftTopPoint() = 0;
-	void SetOwnershipWidth(double width);
-	void SetOwnershipHeight(double height);
-	void SetOwnershipLeftTopPoint(CPoint leftTopPoint);
-
+	virtual std::vector<std::shared_ptr<ShapeDecorator>> GetGroup() = 0;
 	virtual void SetPosition(CPoint newPosition) = 0;
 
 private:

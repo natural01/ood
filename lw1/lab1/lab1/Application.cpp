@@ -2,6 +2,86 @@
 
 using namespace std;
 
+double const TITLE_POSITION_X = 820.0;
+double const TITLE_POSITION_Y = 10.0;
+double const FIGURE_TEXT_POSITION_X = 860.0;
+double const FIGURE_TEXT_POSITION_Y = 36.0;
+double const FIGIRE_POSOTION_ACCESS_Y = 26.0;
+int const WIDTH_BUTTON = 100;
+int const HEIGHT_BUTTON = 20;
+int const BUTTON_POSOITION_X = 850;
+int const BUTTON_POSOITION_Y = 40;
+int const BUTTON_POSOITION_ACCESS_Y = 26;
+string const BUTTON_COLOR = "C0C0C0";
+int const COUNT_OF_FIGURES = 4;
+string const FIGURES[4] = { "Circle", "Rectangle", "Line", "Triangle" };
+string const COLORS[5] = { "FF0000", "0000FF", "008000", "FFFFFF", "000000" };
+string const COLOR_OF_COLOR_BUTTON = "000000";
+int const COLOR_BUTTON_POSITION_X = 810;
+int const COLOR_BUTTON_POSITION_Y = 200;
+int const COLOR_BUTTON_POSITION_ACCESS_X = 30;
+int const SIZE_BUTTON = 20;
+string const BORDER[3] = { "1", "2", "3" };
+double const BORDER_BUTTON_POSITION_X = 815.0;
+double const BORDER_BUTTON_POSITION_Y = 266.0;
+double const BORDER_BUTTON_POSITION_ACCESS_X = 30.0;
+
+float getPointForFigure(figures figure)
+{
+	switch (figure)
+	{
+	case figures::Line:
+		return 88.0;
+		break;
+	case figures::Circle:
+		return 36.0;
+		break;
+	case figures::Rectangle:
+		return 62.0;
+		break;
+	case figures::Triangle:
+		return 114.0;
+		break;
+	default:
+		return 0.0;
+	}
+}
+
+string getFigureString(figures figure)
+{
+	switch (figure)
+	{
+	case figures::Line:
+		return "Line";
+		break;
+	case figures::Circle:
+		return "Circle";
+		break;
+	case figures::Rectangle:
+		return "Rectangle";
+		break;
+	case figures::Triangle:
+		return "Triangle";
+		break;
+	default:
+		return "";
+	}
+}
+
+sf::Text addButton(sf::RenderWindow& window, std::vector<CRectangle>* buttons, figures figure)
+{
+	sf::Font font;
+	CPoint startButtonLine = CPoint(850, getPointForFigure(figure)+4);
+	CRectangle buttonLine = CRectangle(startButtonLine, 100, 20, "C0C0C0", "C0C0C0", window);
+	buttons->push_back(buttonLine);
+	buttonLine.Draw(window);
+	sf::Text text("", font, 20);
+	text.setFillColor(sf::Color::Black);
+	text.setPosition(860.0, getPointForFigure(figure));
+	text.setString(getFigureString(figure));
+	return text;
+}
+
 static sf::Color GetValidateColor(uint32_t color)
 {
 	uint32_t red = ((color / 256) / 256) % 256;
@@ -14,132 +94,85 @@ void Application::drowPanel()
 {
 	CPoint startLine = CPoint(800, 0);
 	CPoint finishLine = CPoint(800, 600);
-	CLineSegment line = CLineSegment(startLine, finishLine, "000", m_window);
-	line.Draw(m_window);
+	CLineSegment markup = CLineSegment(startLine, finishLine, "000", m_window);
+	markup.Draw(m_window);
 
-	sf::Font font;
-	font.loadFromFile("CyrilicOld.ttf");
-	sf::Text text("", font, 20);
-	text.setFillColor(sf::Color::Black);
-	text.setPosition(820.0, 10.0);
-	text.setString("add new figure: ");
-	m_window.draw(text);
+	CText title("add new figure: ", TITLE_POSITION_X, TITLE_POSITION_Y);
+	m_window.draw(title.getText());
 
-	CPoint startButtonCircle = CPoint(850, 40);
-	CRectangle buttonCircle = CRectangle(startButtonCircle, 100, 20, "C0C0C0", "C0C0C0", m_window);
-	m_buttons.push_back(buttonCircle);
-	buttonCircle.Draw(m_window);
-	sf::Text textCircle("", font, 20);
-	textCircle.setFillColor(sf::Color::Black);
-	textCircle.setPosition(860.0, 36.0);
-	textCircle.setString("Circle");
-	m_window.draw(textCircle);
-
-	CPoint startButtonRectangle = CPoint(850, 66);
-	CRectangle buttonRectangle = CRectangle(startButtonRectangle, 100, 20, "C0C0C0", "C0C0C0", m_window);
-	m_buttons.push_back(buttonRectangle);
-	buttonRectangle.Draw(m_window);
-	sf::Text textRectangle("", font, 20);
-	textRectangle.setFillColor(sf::Color::Black);
-	textRectangle.setPosition(860.0, 62.0);
-	textRectangle.setString("Rectangle");
-	m_window.draw(textRectangle);
-
-	CPoint startButtonLine = CPoint(850, 92);
-	CRectangle buttonLine = CRectangle(startButtonLine, 100, 20, "C0C0C0", "C0C0C0", m_window);
-	m_buttons.push_back(buttonLine);
-	buttonLine.Draw(m_window);
-	sf::Text textLine("", font, 20);
-	textLine.setFillColor(sf::Color::Black);
-	textLine.setPosition(860.0, 88.0);
-	textLine.setString("Line");
-	m_window.draw(textLine);
-
-	CPoint startButtonTriangle = CPoint(850, 118);
-	CRectangle buttonTriangle = CRectangle(startButtonTriangle, 100, 20, "C0C0C0", "C0C0C0", m_window);
-	m_buttons.push_back(buttonTriangle);
-	buttonTriangle.Draw(m_window);
-	sf::Text textTriangle("", font, 20);
-	textTriangle.setFillColor(sf::Color::Black);
-	textTriangle.setPosition(860.0, 114.0);
-	textTriangle.setString("Triangle");
-	m_window.draw(textTriangle);
+	for (int count = 0; count < COUNT_OF_FIGURES; count++)
+	{
+		CPoint startButtonCircle = CPoint(BUTTON_POSOITION_X, BUTTON_POSOITION_Y + BUTTON_POSOITION_ACCESS_Y * count);
+		CRectangle buttonCircle = CRectangle(startButtonCircle, WIDTH_BUTTON, HEIGHT_BUTTON, BUTTON_COLOR, BUTTON_COLOR, m_window);
+		m_buttons.push_back(buttonCircle);
+		buttonCircle.Draw(m_window);
+		CText circle(FIGURES[count], FIGURE_TEXT_POSITION_X, FIGURE_TEXT_POSITION_Y + FIGIRE_POSOTION_ACCESS_Y * count);
+		m_window.draw(circle.getText());
+	}
 }
 
 void Application::drowPanelForChangeFigure()
 {
-	// change figure color
+	CText color("change figure color: ", 820.0, 170.0);
+	m_window.draw(color.getText());
 
-	sf::Font font;
-	font.loadFromFile("CyrilicOld.ttf");
-	sf::Text changeFigureColor("", font, 20);
-	changeFigureColor.setFillColor(sf::Color::Black);
-	changeFigureColor.setPosition(820.0, 170.0);
-	changeFigureColor.setString("change figure color: ");
-	m_window.draw(changeFigureColor);
+	for (int count = 0; count < COLORS->size() - 1; count++)
+	{
+		CPoint startButton = CPoint(COLOR_BUTTON_POSITION_X + COLOR_BUTTON_POSITION_ACCESS_X * count, COLOR_BUTTON_POSITION_Y);
+		CRectangle button = CRectangle(startButton, SIZE_BUTTON, SIZE_BUTTON, COLOR_OF_COLOR_BUTTON, COLORS[count], m_window);
+		m_buttons.push_back(button);
+		button.Draw(m_window);
+	}
 
-	CPoint startButtonRed = CPoint(810, 200);
-	CRectangle buttonRed = CRectangle(startButtonRed, 20, 20, "000000", "FF0000", m_window);
-	m_buttons.push_back(buttonRed);
-	buttonRed.Draw(m_window);
+	CText border("change border size: ", 820.0, 240.0);
+	m_window.draw(border.getText());
 
-	CPoint startButtonBlue = CPoint(840, 200);
-	CRectangle buttonBlue = CRectangle(startButtonBlue, 20, 20, "000000", "0000FF", m_window);
-	m_buttons.push_back(buttonBlue);
-	buttonBlue.Draw(m_window);
+	for (int count = 0; count < 3; count++)
+	{
+		CPoint startborderSize = CPoint(COLOR_BUTTON_POSITION_X + COLOR_BUTTON_POSITION_ACCESS_X * count, 270);
+		CRectangle borderSize = CRectangle(startborderSize, SIZE_BUTTON, SIZE_BUTTON, BUTTON_COLOR, BUTTON_COLOR, m_window);
+		m_buttons.push_back(borderSize);
+		borderSize.Draw(m_window);
+		CText borderText(BORDER[count], BORDER_BUTTON_POSITION_X + BORDER_BUTTON_POSITION_ACCESS_X * count, BORDER_BUTTON_POSITION_Y);
+		m_window.draw(borderText.getText());
+	}
+}
 
-	CPoint startButtonGreen = CPoint(870, 200);
-	CRectangle buttonGreen = CRectangle(startButtonGreen, 20, 20, "000000", "008000", m_window);
-	m_buttons.push_back(buttonGreen);
-	buttonGreen.Draw(m_window);
-
-	CPoint startButtonWhite = CPoint(900, 200);
-	CRectangle buttonWhite = CRectangle(startButtonWhite, 20, 20, "000000", "FFFFFF", m_window);
-	m_buttons.push_back(buttonWhite);
-	buttonWhite.Draw(m_window);
-
-	CPoint startButtonBlack = CPoint(930, 200);
-	CRectangle buttonBlack = CRectangle(startButtonBlack, 20, 20, "000000", "000000", m_window);
-	m_buttons.push_back(buttonBlack);
-	buttonBlack.Draw(m_window);
-
-	// change border size
-
-	sf::Text changeBorderSize("", font, 20);
-	changeBorderSize.setFillColor(sf::Color::Black);
-	changeBorderSize.setPosition(820.0, 240.0);
-	changeBorderSize.setString("change border size: ");
-	m_window.draw(changeBorderSize);
-
-	CPoint startborderSize1 = CPoint(810, 270);
-	CRectangle borderSize1 = CRectangle(startborderSize1, 20, 20, "C0C0C0", "C0C0C0", m_window);
-	m_buttons.push_back(borderSize1);
-	borderSize1.Draw(m_window);
-	sf::Text textBorderSize1("", font, 20);
-	textBorderSize1.setFillColor(sf::Color::Black);
-	textBorderSize1.setPosition(815.0, 266.0);
-	textBorderSize1.setString("1");
-	m_window.draw(textBorderSize1);
-
-	CPoint startborderSize2 = CPoint(840, 270);
-	CRectangle borderSize2 = CRectangle(startborderSize2, 20, 20, "C0C0C0", "C0C0C0", m_window);
-	m_buttons.push_back(borderSize2);
-	borderSize2.Draw(m_window);
-	sf::Text textBorderSize2("", font, 20);
-	textBorderSize2.setFillColor(sf::Color::Black);
-	textBorderSize2.setPosition(845.0, 266.0);
-	textBorderSize2.setString("2");
-	m_window.draw(textBorderSize2);
-
-	CPoint startborderSize3 = CPoint(870, 270);
-	CRectangle borderSize3 = CRectangle(startborderSize3, 20, 20, "C0C0C0", "C0C0C0", m_window);
-	m_buttons.push_back(borderSize3);
-	borderSize3.Draw(m_window);
-	sf::Text textBorderSize3("", font, 20);
-	textBorderSize3.setFillColor(sf::Color::Black);
-	textBorderSize3.setPosition(875.0, 266.0);
-	textBorderSize3.setString("3");
-	m_window.draw(textBorderSize3);
+void ChangeColor(CConsoleCommand* application, uint32_t const& color)
+{
+	for (const auto& shape : application->getShapes())
+		if (shape->GetSelect())
+		{
+			if (!shape->GetGroup().empty())
+			{
+				for (const auto& subShape : shape->GetGroup())
+				{
+					subShape->SetFillColor(color);
+				}
+			}
+			else
+			{
+				shape->SetFillColor(color);
+			}
+		}
+}
+void ChangeBorderSize(CConsoleCommand* application, int size)
+{
+	for (const auto& shape : application->getShapes())
+		if (shape->GetSelect())
+		{
+			if (!shape->GetGroup().empty())
+			{
+				for (const auto& subShape : shape->GetGroup())
+				{
+					subShape->SetBorder(size);
+				}
+			}
+			else
+			{
+				shape->SetBorder(size);
+			}
+		}
 }
 
 bool Application::buttonPressed(sf::Vector2i point)
@@ -159,24 +192,12 @@ bool Application::buttonPressed(sf::Vector2i point)
 				}
 				if (m_buttons[i].GetLeftTopPoint().y() == 270)
 				{
-					if (m_buttons[i].GetLeftTopPoint().x() == 810) 
-					{
-						for (const auto& shape : m_observer->getShapes())
-							if (shape->GetOwnership())
-								shape->SetBorder(1);
-					}
+					if (m_buttons[i].GetLeftTopPoint().x() == 810)
+						ChangeBorderSize(m_observer, 1);
 					if (m_buttons[i].GetLeftTopPoint().x() == 840)
-					{
-						for (const auto& shape : m_observer->getShapes())
-							if (shape->GetOwnership())
-								shape->SetBorder(2);
-					}
+						ChangeBorderSize(m_observer, 2);
 					if (m_buttons[i].GetLeftTopPoint().x() == 870)
-					{
-						for (const auto& shape : m_observer->getShapes())
-							if (shape->GetOwnership())
-								shape->SetBorder(3);
-					}
+						ChangeBorderSize(m_observer, 3);
 				}
 			}
 			else
@@ -184,29 +205,19 @@ bool Application::buttonPressed(sf::Vector2i point)
 				switch (m_buttons[i].GetFillColor())
 				{
 				case 16711680:
-					for (const auto& shape : m_observer->getShapes())
-						if (shape->GetOwnership())
-							shape->SetFillColor(16711680);
+					ChangeColor(m_observer, 16711680);
 					break;
 				case 255:
-					for (const auto& shape : m_observer->getShapes())
-						if (shape->GetOwnership())
-							shape->SetFillColor(255);
+					ChangeColor(m_observer, 255);
 					break;
 				case 32768:
-					for (const auto& shape : m_observer->getShapes())
-						if (shape->GetOwnership())
-							shape->SetFillColor(32768);
+					ChangeColor(m_observer, 32768);
 					break;
 				case 16777215:
-					for (const auto& shape : m_observer->getShapes())
-						if (shape->GetOwnership())
-							shape->SetFillColor(16777215);
+					ChangeColor(m_observer, 16777215);
 					break;
 				case 0:
-					for (const auto& shape : m_observer->getShapes())
-						if (shape->GetOwnership())
-							shape->SetFillColor(0);
+					ChangeColor(m_observer, 0);
 					break;
 				}
 			}
@@ -214,14 +225,4 @@ bool Application::buttonPressed(sf::Vector2i point)
 		}
 	}
 	return false;
-}
-
-void Application::nullState()
-{
-	m_colorState = ColorState::None;
-}
-
-ColorState Application::getColorState()
-{
-	return m_colorState;
 }

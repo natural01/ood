@@ -5,7 +5,8 @@
 #include "Rectangle.h"
 #include "Point.h"
 #include "ConsoleCommand.h"
-#include "States.h"
+#include "Figures.h"
+#include "CText.h"
 
 class CConsoleCommand;
 class Application
@@ -22,15 +23,12 @@ public:
 	void drowPanel();
 	void drowPanelForChangeFigure();
 	bool buttonPressed(sf::Vector2i point);
-	void nullState();
 
-	ColorState getColorState();
 private:
 	Application(CConsoleCommand* observer, sf::RenderWindow& window): m_observer(observer), m_window(window)
 	{
 	}
 	std::vector<CRectangle> m_buttons;
-	ColorState m_colorState = ColorState::None;
 	CConsoleCommand* m_observer;
 	sf::RenderWindow& m_window;
 };

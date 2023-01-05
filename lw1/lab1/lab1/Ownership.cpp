@@ -2,12 +2,24 @@
 
 using namespace std;
 
-COwnership::COwnership(CPoint const& leftTopPoint, double const& width, double const& height, sf::RenderWindow& window)
+COwnership::COwnership(CPoint const& leftTopPoint, double const& width, double const& height)
 	: m_leftTopPoint(leftTopPoint)
 	, m_width(width)
 	, m_height(height)
-	, m_window(window)
 {
+}
+
+COwnership::COwnership()
+	: m_leftTopPoint(CPoint(0, 0))
+	, m_width(0)
+	, m_height(0)
+{
+}
+
+void COwnership::SetStartpoint(CPoint start)
+{
+	m_leftTopPoint.setX(start.x());
+	m_leftTopPoint.setY(start.y());
 }
 
 CPoint COwnership::GetLeftTopPoint() const
@@ -20,14 +32,30 @@ CPoint COwnership::GetRightBottomPoint() const
 	return CPoint(m_leftTopPoint.x() + m_width, m_leftTopPoint.y() + m_height);
 }
 
+void COwnership::SetLeftTopPoint(CPoint newPosition)
+{
+	m_leftTopPoint.setX(m_leftTopPoint.x() - newPosition.x());
+	m_leftTopPoint.setY(m_leftTopPoint.y() - newPosition.y());
+}
+
 double COwnership::GetWidth() const
 {
 	return m_width;
 }
 
+void COwnership::SetWidth(double width)
+{
+	m_width = width;
+}
+
 double COwnership::GetHeight() const
 {
 	return m_height;
+}
+
+void COwnership::SetHeight(double height)
+{
+	m_height = height;
 }
 
 static sf::Color GetValidateColor(uint32_t color)
@@ -38,7 +66,7 @@ static sf::Color GetValidateColor(uint32_t color)
 	return sf::Color(red, green, blue);
 }
 
-void COwnership::Draw(sf::RenderWindow& window) const
+sf::ConvexShape COwnership::getOwnershape() const
 {
 	CPoint rightBottomPoint = GetRightBottomPoint();
 	std::vector<CPoint> points = {
@@ -56,5 +84,5 @@ void COwnership::Draw(sf::RenderWindow& window) const
 	shape.setFillColor(sf::Color(0, 0, 0, 0));
 	shape.setOutlineThickness(3);
 	shape.setOutlineColor(GetValidateColor(000000));
-	window.draw(shape);
+	return shape;
 }

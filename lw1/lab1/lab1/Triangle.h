@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include "ShapeDecorator.h"
+#include "Ownership.h"
 
 
 class CTriangle final : public ShapeDecorator
@@ -16,23 +17,23 @@ public:
 	double GetPerimeter() const override;
 	std::string ToString() const override;
 	void Draw(sf::RenderWindow& window) const override;
-	void SetOwnership(sf::Vector2i point, bool select);
-	bool GetOwnership();
-	void SetOwnership();
+	void SetSelect(sf::Vector2i point, bool select);
+	bool GetSelect();
+	void SetSelect(bool select);
 
 	CPoint GetVertex1() const;
 	CPoint GetVertex2() const;
 	CPoint GetVertex3() const;
 
-	int GetOwnershipWidth();
-	int GetOwnershipHeight();
-	CPoint GetOwnershipLeftTopPoint();
 	void SetPosition(CPoint newPosition);
+	COwnership GetOwnership();
+	std::vector<std::shared_ptr<ShapeDecorator>> GetGroup();
 
 private:
 	sf::RenderWindow& m_window;
 	CPoint m_vertex1 = CPoint(0, 0);
 	CPoint m_vertex2 = CPoint(0, 0);
 	CPoint m_vertex3 = CPoint(0, 0);
-	bool m_ownership = false;
+	bool m_select = false;
+	COwnership m_ownership;
 };

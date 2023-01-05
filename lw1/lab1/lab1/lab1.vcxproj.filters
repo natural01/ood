@@ -13,12 +13,30 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Исходные файлы\Mementro">
+      <UniqueIdentifier>{99791b7d-054b-4e35-8041-5424e577708f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\shapes">
+      <UniqueIdentifier>{309566a3-0cfd-4cda-8c6f-cf4c8bbe8cf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\decorator">
+      <UniqueIdentifier>{6e680abd-323b-4309-b9ae-92563c1c3a61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Application">
+      <UniqueIdentifier>{b4a627a7-3101-4141-8d98-2c14117f0fba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Application\buttons">
+      <UniqueIdentifier>{79bc93c3-d87a-4239-84a6-05738f1be965}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\applicationWindow">
+      <UniqueIdentifier>{45c59932-cb6a-49eb-9c70-edd43c91c5e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Composite">
+      <UniqueIdentifier>{c722543e-c6a8-44d9-aa40-721d18e4ee0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="Circle.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Shape.cpp">
@@ -33,32 +51,41 @@
     <ClCompile Include="ConsoleCommand.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="LineSegment.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="Rectangle.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="Triangle.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="ShapeDecorator.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="Ownership.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CShapeComposite.cpp">
-      <Filter>Исходные файлы</Filter>
+    <ClCompile Include="Mementro.cpp">
+      <Filter>Исходные файлы\Mementro</Filter>
+    </ClCompile>
+    <ClCompile Include="Circle.cpp">
+      <Filter>Исходные файлы\shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Triangle.cpp">
+      <Filter>Исходные файлы\shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Rectangle.cpp">
+      <Filter>Исходные файлы\shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="LineSegment.cpp">
+      <Filter>Исходные файлы\shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeDecorator.cpp">
+      <Filter>Исходные файлы\decorator</Filter>
     </ClCompile>
     <ClCompile Include="Application.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="CText.cpp">
+      <Filter>Исходные файлы\Application\buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="CApplicationWindow.cpp">
+      <Filter>Исходные файлы\applicationWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="CShapeComposite.cpp">
+      <Filter>Исходные файлы\Composite</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Circle.h">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="IShape.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
@@ -77,32 +104,41 @@
     <ClInclude Include="ConsoleCommand.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="LineSegment.h">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="Rectangle.h">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="Triangle.h">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="ShapeDecorator.h">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="Ownership.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="IShapeComposite.h">
-      <Filter>Исходные файлы</Filter>
+    <ClInclude Include="Circle.h">
+      <Filter>Исходные файлы\shapes</Filter>
     </ClInclude>
-    <ClInclude Include="CShapeComposite.h">
-      <Filter>Исходные файлы</Filter>
+    <ClInclude Include="Triangle.h">
+      <Filter>Исходные файлы\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Rectangle.h">
+      <Filter>Исходные файлы\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="LineSegment.h">
+      <Filter>Исходные файлы\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeDecorator.h">
+      <Filter>Исходные файлы\decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="Figures.h">
+      <Filter>Исходные файлы\shapes</Filter>
     </ClInclude>
     <ClInclude Include="Application.h">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\Application</Filter>
     </ClInclude>
-    <ClInclude Include="States.h">
-      <Filter>Исходные файлы</Filter>
+    <ClInclude Include="CText.h">
+      <Filter>Исходные файлы\Application\buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="CApplicationWindow.h">
+      <Filter>Исходные файлы\applicationWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="CShapeComposite.h">
+      <Filter>Исходные файлы\Composite</Filter>
+    </ClInclude>
+    <ClInclude Include="IShapeComposite.h">
+      <Filter>Исходные файлы\Composite</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

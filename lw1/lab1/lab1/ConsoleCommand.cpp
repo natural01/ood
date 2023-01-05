@@ -13,8 +13,9 @@
 #include "SolidShape.h"
 #include "Triangle.h"
 #include "ShapeDecorator.h"
-#include "States.h"
+#include "Figures.h"
 #include <fstream>
+#include "CApplicationWindow.h"
 
 using namespace std;
 
@@ -166,30 +167,6 @@ shared_ptr<ShapeDecorator> CreateCircle(vector<string> command, sf::RenderWindow
 	}
 }
 
-unique_ptr<COwnership> CreateOwnership(CPoint const& leftTopPoint, double const& width, double const& height, sf::RenderWindow& window)
-{
-	return make_unique<COwnership>(leftTopPoint, width, height, window);
-}
-
-shared_ptr<CShapeComposite> CreateGroupe(CShapeComposite shapes)
-{
-	CPoint firstCornerOfOwnershap = CPoint(0, 0);
-	CPoint secondCornerOfOwnershap = CPoint(0, 0);
-	for (const auto& shape : shapes.GetGroup())
-	{
-		CPoint firstCornerOfOwnershap = shape->GetOwnershipLeftTopPoint();
-		if (firstCornerOfOwnershap.x() < secondCornerOfOwnershap.x())
-		{
-			secondCornerOfOwnershap.setX(firstCornerOfOwnershap.x());
-		}
-		if (firstCornerOfOwnershap.y() < secondCornerOfOwnershap.y())
-		{
-			secondCornerOfOwnershap.setY(firstCornerOfOwnershap.y());
-		}
-	}
-	return make_shared<CShapeComposite>(shapes);
-}
-
 bool AreaCompare(unique_ptr<IShape> const& firstShape, unique_ptr<IShape> const& secondShape)
 {
 	return firstShape->GetArea() < secondShape->GetArea();
@@ -216,34 +193,6 @@ void CConsoleCommand::addShapes(figures newFigure, sf::RenderWindow& window)
 	case figures::Line:
 		m_shapes.push_back(CreateLineSegment(createDefoltLine(), window));
 		break;
-	}
-}
-
-void CConsoleCommand::updateFromMenu(ColorState state)
-{
-	for (const auto& shape : m_shapes)
-	{
-		if (shape->GetOwnership())
-		{
-			switch (state)
-			{
-			case ColorState::ChangeColorForBlack:
-				shape->SetFillColor(0);
-				break;
-			case ColorState::ChangeColorForWhite:
-				shape->SetFillColor(16777215);
-				break;
-			case ColorState::ChangeColorForRed:
-				shape->SetFillColor(16711680);
-				break;
-			case ColorState::ChangeColorForBlue:
-				shape->SetFillColor(255);
-				break;
-			case ColorState::ChangeColorForGreen:
-				shape->SetFillColor(32768);
-				break;
-			}
-		}
 	}
 }
 
@@ -315,174 +264,30 @@ void CConsoleCommand::DrawShapes(ofstream& outputFile)
 {
 	if (!m_shapes.empty())
 	{
-		bool oneClick = true;
-		bool oneReleas = false;
 		bool oneGroup = true;
 		sf::RenderWindow window(sf::VideoMode(1000, 600), "Draw Shapes!");
 		auto& instance = Application::getInstance(this, window);
 		sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+		CApplicationWindow applicationWindow = CApplicationWindow(window, m_shapes, mousePosition, m_history);
+		applicationWindow.CreateHistory();
 		while (window.isOpen())
 		{
+			sf::Event event = applicationWindow.getEvent();
 			bool checkEntry = true;
-			sf::Event event;
-			while (window.pollEvent(event))
-			{
-				if (event.type == sf::Event::Closed)
-				{
-					window.close();
-				}
-			}
-			window.clear(sf::Color(255, 255, 255));
-			bool ownership = false;
+			applicationWindow.drawShapes(instance);
 
-			instance.drowPanel();
-			if (!(m_ownerships.empty()))
-				instance.drowPanelForChangeFigure();
-
-			for (const auto& shape : m_shapes)
-			{
-				if (shape->GetOwnership())
-					ownership = true;
-				shape->Draw(window);
-			}
-			if (!ownership)
-				m_ownerships.clear();
-			for (const auto& ownership : m_ownerships)
-			{
-				ownership->Draw(window);
-			}
 			if (event.type == sf::Event::MouseButtonPressed)
-			{
-				oneReleas = true;
-				oneGroup = true;
-				if (oneClick)
-				{
-					mousePosition = sf::Mouse::getPosition(window);
-					if (instance.buttonPressed(mousePosition))
-					{
-						checkEntry = true;
-						continue;
-					}
-					for (const auto& shape : m_shapes)
-					{
-						shape->SetOwnership(mousePosition, sf::Keyboard::isKeyPressed(sf::Keyboard::LControl));
-						if (shape->GetOwnership())
-						{
-							checkEntry = true;
-							for (const auto& group : m_groups)
-							{
-								if (group->EntryShape(shape, sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)))
-								{
-									if (!sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
-									{
-										m_ownerships.clear();
-									}
-									CPoint leftTopPoint = group->GetOwnershipLeftTopPoint();
-									int width = group->GetOwnershipWidth();
-									int height = group->GetOwnershipHeight();
-									m_ownerships.push_back(CreateOwnership(leftTopPoint, width, height, window));
-									checkEntry = false;
-									break;
-								}
-							}
-							if (checkEntry)
-							{
-								int width = shape->GetOwnershipWidth();
-								int height = shape->GetOwnershipHeight();
-								CPoint leftTopPoint = shape->GetOwnershipLeftTopPoint();
-								m_ownerships.push_back(CreateOwnership(leftTopPoint, width, height, window));
-							}
-						}
-					}
-					oneClick = false;
-				}
-			}
+				applicationWindow.mousePressEvent(instance);
 			if (event.type == sf::Event::MouseButtonReleased)
-			{
-				oneClick = true;
-				sf::Vector2i newMousePosition = sf::Mouse::getPosition(window);
-				CPoint newPosition = CPoint(0, 0);
-				if (oneReleas)
-				{
-					newPosition = CPoint(mousePosition.x - newMousePosition.x, mousePosition.y - newMousePosition.y);
-					oneReleas = false;
-				}
-				for (const auto& shape : m_shapes)
-				{
-					if (shape->GetOwnership() && !(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)))
-					{
-						for (const auto& group : m_groups)
-						{
-							if (group->EntryShape(shape, sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)))
-							{
-								m_ownerships.clear();
-								group->SetPosition(newPosition);
-								int width = group->GetOwnershipWidth();
-								int height = group->GetOwnershipHeight();
-								CPoint leftTopPoint = group->GetOwnershipLeftTopPoint();
-								m_ownerships.push_back(CreateOwnership(leftTopPoint, width, height, window));
-								checkEntry = false;
-								break;
-							}
-						}
-						if (checkEntry)
-						{
-							m_ownerships.clear();
-							shape->SetPosition(newPosition);
-							int width = shape->GetOwnershipWidth();
-							int height = shape->GetOwnershipHeight();
-							CPoint leftTopPoint = shape->GetOwnershipLeftTopPoint();
-							m_ownerships.push_back(CreateOwnership(leftTopPoint, width, height, window));
-						}
-					}
-				}
-			}
+				applicationWindow.mouseReleasEvent();
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::G))
-			{
-				if (oneGroup)
-				{
-					std::vector<std::shared_ptr<ShapeDecorator>> group;
-					vector<int> indexesForRemove;
-					CShapeComposite newGroup = CShapeComposite(group, CPoint(0, 0));
-					int count = 0;
-					for (const auto& group : m_groups)
-					{
-						if (group->GetOwnership())
-						{
-							indexesForRemove.push_back(count);
-							continue;
-						}
-						count++;
-					}
-					for (int index : indexesForRemove)
-					{
-						m_groups.erase(m_groups.begin() + index);
-					}
-					for (auto& shape : m_shapes)
-					{
-						if (shape->GetOwnership())
-						{
-							newGroup.insertShape(shape);
-						}
-					}
-					m_groups.push_back(CreateGroupe(newGroup));
-					oneGroup = false;
-				}
-			}
+				applicationWindow.createGroup();
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::U))
-			{
-				int count = 0;
-				for (auto& group : m_groups)
-				{
-					if (group->GetOwnership())
-					{
-						group->ClearShapeList();
-						m_groups.erase(m_groups.begin() + count);
-						m_ownerships.clear();
-					}
-					count++;
-				}
-			}
+				applicationWindow.unGroup();
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
+				applicationWindow.UnDo();
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
+				applicationWindow.ReDo();
 			window.display();
 
 		}

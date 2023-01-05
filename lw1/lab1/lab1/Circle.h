@@ -4,6 +4,7 @@
 #include "Point.h"
 #include "SolidShape.h"
 #include "ShapeDecorator.h"
+#include "Ownership.h"
 
 class CCircle final : public ShapeDecorator
 {
@@ -17,19 +18,19 @@ public:
 	void Draw(sf::RenderWindow& window) const override;
 	CPoint GetCenter() const;
 	double GetRadius() const;
-	void SetOwnership(sf::Vector2i point, bool select);
-	bool GetOwnership();
-	void SetOwnership();
+	void SetSelect(sf::Vector2i point, bool select);
+	bool GetSelect();
+	void SetSelect(bool select);
 	void SetBorder(int borderSize);
 
-	int GetOwnershipWidth();
-	int GetOwnershipHeight();
-	CPoint GetOwnershipLeftTopPoint();
 	void SetPosition(CPoint newPosition);
+	COwnership GetOwnership();
+	std::vector<std::shared_ptr<ShapeDecorator>> GetGroup();
 
 private:
 	sf::RenderWindow& m_window;
 	CPoint m_center = CPoint(0, 0);
 	double m_radius = 0;
-	bool m_ownership = false;
+	bool m_select = false;
+	COwnership m_ownership;
 };

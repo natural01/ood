@@ -76,6 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>D:\university\ood\lw1\SFML-2.5.1-windows-vc15-64-bit\SFML-2.5.1\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -90,6 +91,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>D:\university\ood\lw1\SFML-2.5.1-windows-vc15-64-bit\SFML-2.5.1\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -104,12 +106,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>SFML_DYNAMIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\university\ood\lw1\SFML-2.5.1-windows-vc15-64-bit\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\university\ood\lw1\SFML-2.5.1-windows-vc15-64-bit\SFML-2.5.1\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\university\ood\lw1\SFML-2.5.1-windows-vc15-64-bit\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\university\ood\lw1\SFML-2.5.1-windows-vc15-64-bit\SFML-2.5.1\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -121,16 +124,21 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>D:\university\ood\lw1\SFML-2.5.1-windows-vc15-64-bit\SFML-2.5.1\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>D:\university\ood\lw1\SFML-2.5.1-windows-vc15-64-bit\SFML-2.5.1\lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="CApplicationWindow.cpp" />
+    <ClCompile Include="CText.cpp" />
+    <ClCompile Include="Mementro.cpp" />
     <ClCompile Include="ShapeDecorator.cpp" />
     <ClCompile Include="CShapeComposite.cpp" />
     <ClCompile Include="LineSegment.cpp" />
@@ -146,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="CApplicationWindow.h" />
     <ClInclude Include="CShapeComposite.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="ConsoleCommand.h" />
@@ -159,7 +168,8 @@
     <ClInclude Include="SolidShape.h" />
     <ClInclude Include="iSolidShape.h" />
     <ClInclude Include="IShape.h" />
-    <ClInclude Include="States.h" />
+    <ClInclude Include="Figures.h" />
+    <ClInclude Include="CText.h" />
     <ClInclude Include="Triangle.h" />
   </ItemGroup>
   <ItemGroup>
