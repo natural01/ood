@@ -1,4 +1,4 @@
-#pragma 
+#pragma once
 #define _USE_MATH_DEFINES
 
 #include "Point.h"

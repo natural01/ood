@@ -7,6 +7,10 @@
 #include "ConsoleCommand.h"
 #include "Figures.h"
 #include "CText.h"
+#include "AddingShape.h"
+#include "ChangingBorder.h"
+#include "ChangingColor.h"
+#include "Save.h"
 
 class CConsoleCommand;
 class Application
@@ -28,7 +32,10 @@ private:
 	Application(CConsoleCommand* observer, sf::RenderWindow& window): m_observer(observer), m_window(window)
 	{
 	}
-	std::vector<CRectangle> m_buttons;
+	AddingShape m_addingShape;
+	ChangingBorder m_changingBorder;
+	ChangingColor m_changingColor;
+	Save m_saveFile;
 	CConsoleCommand* m_observer;
 	sf::RenderWindow& m_window;
 };

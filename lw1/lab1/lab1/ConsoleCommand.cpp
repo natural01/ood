@@ -16,6 +16,8 @@
 #include "Figures.h"
 #include <fstream>
 #include "CApplicationWindow.h"
+#include "TextReader.h"
+#include "TextConverter.h"
 
 using namespace std;
 
@@ -33,138 +35,26 @@ string const Circle = "Circle";
 string const Info_Max_Area = "Shape with max area:\n";
 string const Info_Min_Perimeter = "Shape with min perimeter:\n";
 
-vector<string> createDefoltCircle()
+string createDefoltCircle()
 {
-	vector<string> command;
-	command.push_back("Circle");
-	command.push_back("200");
-	command.push_back("500");
-	command.push_back("50");
-	command.push_back("000000");
-	command.push_back("ffffff");
-	return command;
+	return "Circle 200 500 50 000000 ffffff";
 }
-vector<string> createDefoltRectangle()
+string createDefoltRectangle()
 {
-	vector<string> command;
-	command.push_back("Rectangle");
-	command.push_back("200");
-	command.push_back("500");
-	command.push_back("150");
-	command.push_back("100");
-	command.push_back("000000");
-	command.push_back("ffffff");
-	return command;
+	return "Rectangle 200 500 150 100 000000 ffffff";
 }
-vector<string> createDefoltLine()
+string createDefoltLine()
 {
-	vector<string> command;
-	command.push_back("LineSegment");
-	command.push_back("200");
-	command.push_back("500");
-	command.push_back("300");
-	command.push_back("600");
-	command.push_back("000000");
-	return command;
+	return "LineSegment 200 500 300 600 000000";
 }
-vector<string> createDefoltTriangle()
+string createDefoltTriangle()
 {
-	vector<string> command;
-	command.push_back("Triangle");
-	command.push_back("350");
-	command.push_back("400");
-	command.push_back("300");
-	command.push_back("500");
-	command.push_back("400");
-	command.push_back("500");
-	command.push_back("000000");
-	command.push_back("ffffff");
-	return command;
+	return "Triangle 350 400 300 500 400 500 000000 ffffff";
 }
 
 std::vector<std::shared_ptr<ShapeDecorator>> CConsoleCommand::getShapes()
 {
 	return m_shapes;
-}
-
-shared_ptr<ShapeDecorator> CreateLineSegment(vector<string> command, sf::RenderWindow& newWindow)
-{
-	if (command.size() == The_Number_Of_Elements_In_Line)
-	{
-		try
-		{
-			CLineSegment newLine = CLineSegment(CPoint(stod(command[1]), stod(command[2])), CPoint(stod(command[3]), stod(command[4])), command[5], newWindow);
-			return make_shared<CLineSegment>(CPoint(stod(command[1]), stod(command[2])), CPoint(stod(command[3]), stod(command[4])), command[5], newWindow);
-		}
-		catch (const std::logic_error&)
-		{
-			throw invalid_argument(Error_Incorrect_Argument);
-		}
-	}
-	else
-	{
-		throw invalid_argument(Error_Incorrect_Number_Of_Arguments);
-	}
-}
-
-shared_ptr<ShapeDecorator> CreateTriangle(vector<string> command, sf::RenderWindow& newWindow)
-{
-	if (command.size() == The_Number_Of_Elements_In_Triangle)
-	{
-		try
-		{
-			CTriangle newLine = CTriangle(CPoint(stod(command[1]), stod(command[2])), CPoint(stod(command[3]), stod(command[4])), CPoint(stod(command[5]), stod(command[6])), command[7], command[8], newWindow);
-			return make_shared<CTriangle>(CPoint(stod(command[1]), stod(command[2])), CPoint(stod(command[3]), stod(command[4])), CPoint(stod(command[5]), stod(command[6])), command[7], command[8], newWindow);
-		}
-		catch (const std::logic_error&)
-		{
-			throw invalid_argument(Error_Incorrect_Argument);
-		}
-	}
-	else
-	{
-		throw invalid_argument(Error_Incorrect_Number_Of_Arguments);
-	}
-}
-
-shared_ptr<ShapeDecorator> CreateRectangle(vector<string> command, sf::RenderWindow& newWindow)
-{
-	if (command.size() == The_Number_Of_Elements_In_Rectangle)
-	{
-		try
-		{
-			CRectangle newLine = CRectangle(CPoint(stod(command[1]), stod(command[2])), stod(command[3]), stod(command[4]), command[5], command[6], newWindow);
-			return make_shared<CRectangle>(CPoint(stod(command[1]), stod(command[2])), stod(command[3]), stod(command[4]), command[5], command[6], newWindow);
-		}
-		catch (const std::logic_error&)
-		{
-			throw invalid_argument(Error_Incorrect_Argument);
-		}
-	}
-	else
-	{
-		throw invalid_argument(Error_Incorrect_Number_Of_Arguments);
-	}
-}
-
-shared_ptr<ShapeDecorator> CreateCircle(vector<string> command, sf::RenderWindow& newWindow)
-{
-	if (command.size() == The_Number_Of_Elements_In_Circle)
-	{
-		try
-		{
-			CCircle newLine = CCircle(CPoint(stod(command[1]), stod(command[2])), stod(command[3]), command[4], command[5], newWindow);
-			return make_shared<CCircle>(CPoint(stod(command[1]), stod(command[2])), stod(command[3]), command[4], command[5], newWindow);
-		}
-		catch (const std::logic_error&)
-		{
-			throw invalid_argument(Error_Incorrect_Argument);
-		}
-	}
-	else
-	{
-		throw invalid_argument(Error_Incorrect_Number_Of_Arguments);
-	}
 }
 
 bool AreaCompare(unique_ptr<IShape> const& firstShape, unique_ptr<IShape> const& secondShape)
@@ -179,85 +69,35 @@ bool PerimeterCompare(unique_ptr<IShape> const& firstShape, unique_ptr<IShape> c
 
 void CConsoleCommand::addShapes(figures newFigure, sf::RenderWindow& window)
 {
+	TextConverter textConverter = TextConverter(window);
 	switch (newFigure)
 	{
 	case figures::Triangle:
-		m_shapes.push_back(CreateTriangle(createDefoltTriangle(), window));
+		m_shapes.push_back(textConverter.ConvertText(createDefoltTriangle()));
 		break;
 	case figures::Circle:
-		m_shapes.push_back(CreateCircle(createDefoltCircle(), window));
+		m_shapes.push_back(textConverter.ConvertText(createDefoltCircle()));
 		break;
 	case figures::Rectangle:
-		m_shapes.push_back(CreateRectangle(createDefoltRectangle(), window));
+		m_shapes.push_back(textConverter.ConvertText(createDefoltRectangle()));
 		break;
 	case figures::Line:
-		m_shapes.push_back(CreateLineSegment(createDefoltLine(), window));
+		m_shapes.push_back(textConverter.ConvertText(createDefoltLine()));
 		break;
 	}
 }
 
-vector<string> parsing(string commandLine)
+void CConsoleCommand::SetShapes(std::vector<std::shared_ptr<ShapeDecorator>> shapes)
 {
-	vector<string> arr;
-	if (commandLine.empty())
-	{
-		return arr;
-	}
-	string delimiter(" ");
-	size_t prev = 0;
-	size_t next;
-	size_t delta = delimiter.length();
-
-while ((next = commandLine.find(delimiter, prev)) != string::npos) {
-	arr.push_back(commandLine.substr(prev, next - prev));
-	prev = next + delta;
-}
-arr.push_back(commandLine.substr(prev));
-return arr;
+	m_shapes = shapes;
 }
 
 void CConsoleCommand::DoCommand(ifstream& inputfile, ofstream& outputFile)
 {
-	string commandLine;
-	vector<string> command;
 	sf::RenderWindow window(sf::VideoMode(600, 1800), "Draw Shapes!");
-	while (getline(inputfile, commandLine))
-	{
-		try
-		{
-			command = parsing(commandLine);
-
-			if (command.empty())
-			{
-				break;
-			}
-
-			if (command[0] == Line)
-			{
-				m_shapes.push_back(CreateLineSegment(command, window));
-			}
-			else if (command[0] == Triangle)
-			{
-				m_shapes.push_back(CreateTriangle(command, window));
-			}
-			else if (command[0] == Rectangle)
-			{
-				m_shapes.push_back(CreateRectangle(command, window));
-			}
-			else if (command[0] == Circle)
-			{
-				m_shapes.push_back(CreateCircle(command, window));
-			}
-			else
-			{
-				throw invalid_argument(Error_Incorrect_Shape);
-			}
-		}
-		catch (invalid_argument const& e)
-		{
-			cout << e.what() << endl;
-		}
-	}
+	TextConverter textConverter = TextConverter(window);
+	TextReader textReader = TextReader();
+	SetShapes(textReader.Read(inputfile, textConverter));
 }
 
 void CConsoleCommand::DrawShapes(ofstream& outputFile)
@@ -292,4 +132,9 @@ void CConsoleCommand::DrawShapes(ofstream& outputFile)
 
 		}
 	}
+}
+
+string CConsoleCommand::GetInfo(IStrategy& strategy)
+{
+	return strategy.GetInfo();
 }

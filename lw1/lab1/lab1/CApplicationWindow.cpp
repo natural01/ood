@@ -5,25 +5,6 @@ shared_ptr<COwnership> CreateOwnership(CPoint const& leftTopPoint, double const&
 	return make_unique<COwnership>(leftTopPoint, width, height);
 }
 
-//shared_ptr<CShapeComposite> CreateGroupe(CShapeComposite shapes)
-//{
-//	CPoint firstCornerOfOwnershap = CPoint(0, 0);
-//	CPoint secondCornerOfOwnershap = CPoint(0, 0);
-//	for (const auto& shape : shapes.GetGroup())
-//	{
-//		CPoint firstCornerOfOwnershap = shape->GetSelectLeftTopPoint();
-//		if (firstCornerOfOwnershap.x() < secondCornerOfOwnershap.x())
-//		{
-//			secondCornerOfOwnershap.setX(firstCornerOfOwnershap.x());
-//		}
-//		if (firstCornerOfOwnershap.y() < secondCornerOfOwnershap.y())
-//		{
-//			secondCornerOfOwnershap.setY(firstCornerOfOwnershap.y());
-//		}
-//	}
-//	return make_shared<CShapeComposite>(shapes);
-//}
-
 sf::Event CApplicationWindow::getEvent() const
 {
 	sf::Event event;
@@ -69,7 +50,11 @@ void CApplicationWindow::mousePressEvent(Application& instance)
 	{
 		m_mousePosition = sf::Mouse::getPosition(m_window);
 		if (instance.buttonPressed(m_mousePosition))
+		{
+			m_history.addHitory(m_shapes);
+			m_mouseClickTrigger = false;
 			return;
+		}
 		for (const auto& shape : m_shapes)
 		{
 			shape->SetSelect(m_mousePosition, sf::Keyboard::isKeyPressed(sf::Keyboard::LControl));
@@ -99,7 +84,6 @@ void CApplicationWindow::mouseReleasEvent()
 			clearOwnership(m_shapes);
 			shape->SetPosition(newPosition);
 			shape->SetSelect(true);
-			m_history.addHitory(m_shapes);
 		}
 	}
 }

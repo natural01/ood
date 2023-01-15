@@ -5,6 +5,7 @@
 #include "Point.h"
 #include <SFML/Graphics.hpp>
 #include "Ownership.h"
+#include "IStrategy.h"
 
 class ShapeDecorator : public CSolidShape
 {

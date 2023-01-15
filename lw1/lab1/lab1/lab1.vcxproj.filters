@@ -19,9 +19,6 @@
     <Filter Include="Исходные файлы\shapes">
       <UniqueIdentifier>{309566a3-0cfd-4cda-8c6f-cf4c8bbe8cf1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Исходные файлы\decorator">
-      <UniqueIdentifier>{6e680abd-323b-4309-b9ae-92563c1c3a61}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Исходные файлы\Application">
       <UniqueIdentifier>{b4a627a7-3101-4141-8d98-2c14117f0fba}</UniqueIdentifier>
     </Filter>
@@ -33,6 +30,30 @@
     </Filter>
     <Filter Include="Исходные файлы\Composite">
       <UniqueIdentifier>{c722543e-c6a8-44d9-aa40-721d18e4ee0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Visitor">
+      <UniqueIdentifier>{02853421-649a-4b5a-bbf4-cf2f42391960}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Application\buttons\AddingShape">
+      <UniqueIdentifier>{3057fcff-a67f-460c-ac74-514859db4457}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Application\buttons\ChangingBorder">
+      <UniqueIdentifier>{440af3ca-6a8f-4cd8-82af-a00fce805ca5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Application\buttons\ChangingColor">
+      <UniqueIdentifier>{54b1a7a5-1e58-4604-b3dc-274d230db1c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Strategy">
+      <UniqueIdentifier>{21008d2c-9b1f-4965-bfc6-0d7959e72b8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Application\buttons\SaveFile">
+      <UniqueIdentifier>{2901f476-8e2f-4e2c-8601-7c328b004d4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Decorator">
+      <UniqueIdentifier>{6e680abd-323b-4309-b9ae-92563c1c3a61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Builder">
+      <UniqueIdentifier>{897b829f-46df-4698-bad8-747cbe1de5a9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -70,7 +91,7 @@
       <Filter>Исходные файлы\shapes</Filter>
     </ClCompile>
     <ClCompile Include="ShapeDecorator.cpp">
-      <Filter>Исходные файлы\decorator</Filter>
+      <Filter>Исходные файлы\Decorator</Filter>
     </ClCompile>
     <ClCompile Include="Application.cpp">
       <Filter>Исходные файлы\Application</Filter>
@@ -83,6 +104,39 @@
     </ClCompile>
     <ClCompile Include="CShapeComposite.cpp">
       <Filter>Исходные файлы\Composite</Filter>
+    </ClCompile>
+    <ClCompile Include="AddingShape.cpp">
+      <Filter>Исходные файлы\Application\buttons\AddingShape</Filter>
+    </ClCompile>
+    <ClCompile Include="Visitor.cpp">
+      <Filter>Исходные файлы\Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="ChangingBorder.cpp">
+      <Filter>Исходные файлы\Application\buttons\ChangingBorder</Filter>
+    </ClCompile>
+    <ClCompile Include="ChangingColor.cpp">
+      <Filter>Исходные файлы\Application\buttons\ChangingColor</Filter>
+    </ClCompile>
+    <ClCompile Include="GetInfoLineStrategy.cpp">
+      <Filter>Исходные файлы\Strategy</Filter>
+    </ClCompile>
+    <ClCompile Include="Save.cpp">
+      <Filter>Исходные файлы\Application\buttons\SaveFile</Filter>
+    </ClCompile>
+    <ClCompile Include="GetInfoCircleStrategy.cpp">
+      <Filter>Исходные файлы\Strategy</Filter>
+    </ClCompile>
+    <ClCompile Include="GetInfoTriangleStrategy.cpp">
+      <Filter>Исходные файлы\Strategy</Filter>
+    </ClCompile>
+    <ClCompile Include="GetInfoRectangleStrategy.cpp">
+      <Filter>Исходные файлы\Strategy</Filter>
+    </ClCompile>
+    <ClCompile Include="TextConverter.cpp">
+      <Filter>Исходные файлы\Builder</Filter>
+    </ClCompile>
+    <ClCompile Include="TextReader.cpp">
+      <Filter>Исходные файлы\Builder</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -101,9 +155,6 @@
     <ClInclude Include="Point.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="ConsoleCommand.h">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="Ownership.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
@@ -120,7 +171,7 @@
       <Filter>Исходные файлы\shapes</Filter>
     </ClInclude>
     <ClInclude Include="ShapeDecorator.h">
-      <Filter>Исходные файлы\decorator</Filter>
+      <Filter>Исходные файлы\Decorator</Filter>
     </ClInclude>
     <ClInclude Include="Figures.h">
       <Filter>Исходные файлы\shapes</Filter>
@@ -139,6 +190,54 @@
     </ClInclude>
     <ClInclude Include="IShapeComposite.h">
       <Filter>Исходные файлы\Composite</Filter>
+    </ClInclude>
+    <ClInclude Include="Mementro.h">
+      <Filter>Исходные файлы\Mementro</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitor.h">
+      <Filter>Исходные файлы\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="IMenu.h">
+      <Filter>Исходные файлы\Application\buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="AddingShape.h">
+      <Filter>Исходные файлы\Application\buttons\AddingShape</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuButtonsState.h">
+      <Filter>Исходные файлы\Application\buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="ChangingBorder.h">
+      <Filter>Исходные файлы\Application\buttons\ChangingBorder</Filter>
+    </ClInclude>
+    <ClInclude Include="ChangingColor.h">
+      <Filter>Исходные файлы\Application\buttons\ChangingColor</Filter>
+    </ClInclude>
+    <ClInclude Include="IStrategy.h">
+      <Filter>Исходные файлы\Strategy</Filter>
+    </ClInclude>
+    <ClInclude Include="GetInfoLineStrategy.h">
+      <Filter>Исходные файлы\Strategy</Filter>
+    </ClInclude>
+    <ClInclude Include="Save.h">
+      <Filter>Исходные файлы\Application\buttons\SaveFile</Filter>
+    </ClInclude>
+    <ClInclude Include="GetInfoCircleStrategy.h">
+      <Filter>Исходные файлы\Strategy</Filter>
+    </ClInclude>
+    <ClInclude Include="GetInfoTriangleStrategy.h">
+      <Filter>Исходные файлы\Strategy</Filter>
+    </ClInclude>
+    <ClInclude Include="GetInfoRectangleStrategy.h">
+      <Filter>Исходные файлы\Strategy</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleCommand.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="TextConverter.h">
+      <Filter>Исходные файлы\Builder</Filter>
+    </ClInclude>
+    <ClInclude Include="TextReader.h">
+      <Filter>Исходные файлы\Builder</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

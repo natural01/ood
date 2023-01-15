@@ -5,7 +5,8 @@
 #include "CShapeComposite.h"
 #include "Application.h"
 #include "Figures.h"
-#include "Mementro.cpp"
+#include "Mementro.h"
+#include "IStrategy.h"
 
 class CConsoleCommand
 {
@@ -18,6 +19,9 @@ public:
 
 	void addShapes(figures newFigure, sf::RenderWindow& window);
 	std::vector<std::shared_ptr<ShapeDecorator>> getShapes();
+	void SetShapes(std::vector<std::shared_ptr<ShapeDecorator>> shapes);
+
+	string GetInfo(IStrategy& strategy);
 
 private:
 	std::vector<std::shared_ptr<ShapeDecorator>> m_shapes;

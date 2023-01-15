@@ -135,10 +135,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AddingShape.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="CApplicationWindow.cpp" />
+    <ClCompile Include="ChangingBorder.cpp" />
+    <ClCompile Include="ChangingColor.cpp" />
     <ClCompile Include="CText.cpp" />
+    <ClCompile Include="GetInfoCircleStrategy.cpp" />
+    <ClCompile Include="GetInfoLineStrategy.cpp" />
+    <ClCompile Include="GetInfoRectangleStrategy.cpp" />
+    <ClCompile Include="GetInfoTriangleStrategy.cpp" />
     <ClCompile Include="Mementro.cpp" />
+    <ClCompile Include="Save.cpp" />
     <ClCompile Include="ShapeDecorator.cpp" />
     <ClCompile Include="CShapeComposite.cpp" />
     <ClCompile Include="LineSegment.cpp" />
@@ -150,14 +158,29 @@
     <ClCompile Include="SolidShape.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="ConsoleCommand.cpp" />
+    <ClCompile Include="TextConverter.cpp" />
+    <ClCompile Include="TextReader.cpp" />
     <ClCompile Include="Triangle.cpp" />
+    <ClCompile Include="Visitor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AddingShape.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="CApplicationWindow.h" />
+    <ClInclude Include="ChangingBorder.h" />
+    <ClInclude Include="ChangingColor.h" />
     <ClInclude Include="CShapeComposite.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="ConsoleCommand.h" />
+    <ClInclude Include="GetInfoCircleStrategy.h" />
+    <ClInclude Include="GetInfoLineStrategy.h" />
+    <ClInclude Include="GetInfoRectangleStrategy.h" />
+    <ClInclude Include="GetInfoTriangleStrategy.h" />
+    <ClInclude Include="IStrategy.h" />
+    <ClInclude Include="Mementro.h" />
+    <ClInclude Include="IMenu.h" />
+    <ClInclude Include="MenuButtonsState.h" />
+    <ClInclude Include="Save.h" />
     <ClInclude Include="ShapeDecorator.h" />
     <ClInclude Include="IShapeComposite.h" />
     <ClInclude Include="LineSegment.h" />
@@ -170,7 +193,10 @@
     <ClInclude Include="IShape.h" />
     <ClInclude Include="Figures.h" />
     <ClInclude Include="CText.h" />
+    <ClInclude Include="TextConverter.h" />
+    <ClInclude Include="TextReader.h" />
     <ClInclude Include="Triangle.h" />
+    <ClInclude Include="Visitor.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="test.txt" />
